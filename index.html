@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
+  <title>Jalalabad Mosque</title>
+
+  <!-- Weather Icons by Erik Flowers (v2.0.9) -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css"
+    integrity="sha512-9N7p+IGexZTxGPa0BJqOAzsNNoOkTLO4qlZbdNKk5LbeCEu5ZIO8iYJ2IfS7yynMfubF9CV+0mZClBOf9W5yxg=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+
+  <style>
+    :root {
+      /* Core Colors */
+      --primary-color: #007AFF;  /* iOS Blue */
+      --accent-color: #5E5CE6;   
+      --bg-color: #F5F5F7;      /* iOS system background (light) */
+      --card-bg: #FFFFFF;
+      --text-color: #1C1C1E;
+      --secondary-text: #6E6E73;
+      --border-color: rgba(0, 0, 0, 0.06);
+
+      /* Layout & Effects */
+      --border-radius: 16px;
+      --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+      /* Typography */
+      --title-font-size: 30px;
+      --time-font-size: 26px;
+      --label-font-size: 14px;
+      --nav-font-size: 13px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary-color: #0A84FF;
+        --accent-color: #5E5CE6;
+        --bg-color: #000000; 
+        --card-bg: #1C1C1E;
+        --text-color: #FFFFFF;
+        --secondary-text: #98989D;
+        --border-color: rgba(255, 255, 255, 0.15);
+        --shadow: 0 4px 16px rgba(255, 255, 255, 0.08);
+      }
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 20px;
+      padding-bottom: 90px; /* extra space for bottom nav */
+      flex: 1;
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 8px;
+      padding: 20px 0 10px;
+    }
+    header h1 {
+      font-size: var(--title-font-size);
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+
+    /* Date & Ramadan Info */
+    .date-section {
+      text-align: center;
+      margin: 10px 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .date-display {
+      font-weight: 500;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+    .ramadan-counter {
+      background-color: var(--accent-color);
+      color: white;
+      padding: 6px 16px;
+      border-radius: 15px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 10px;
+      display: inline-flex;
+      align-items: center;
+    }
+    .ramadan-counter svg {
+      margin-right: 6px;
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Sections (Timetable / Community) */
+    #timetable-section,
+    #community-section {
+      display: none; /* toggled via JS */
+    }
+
+    /* Prayer Cards Grid */
+    .prayer-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    /* Prayer Card */
+    .prayer-card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: default;
+      
+      /* Fade in animation prep */
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    .prayer-card.fade-in {
+      animation: fadeInUp 0.4s forwards ease;
+    }
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .prayer-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Prayer Icon */
+    .prayer-icon {
+      font-size: 45px;
+      margin-bottom: 15px;
+      color: var(--primary-color);
+      flex-shrink: 0;
+    }
+
+    /* Prayer Name, Times, etc. */
+    .prayer-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      text-align: center;
+    }
+    .prayer-label {
+      font-size: var(--label-font-size);
+      color: var(--secondary-text);
+      margin-bottom: 8px;
+      text-align: center;
+      background-color: rgba(0, 122, 255, 0.1);
+      border-radius: 12px;
+      padding: 3px 10px;
+      display: inline-block;
+    }
+    .prayer-time {
+      font-size: var(--time-font-size);
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: var(--primary-color);
+      text-align: center;
+    }
+    /* Highlight only the time in blue, revert "Jamaat" to neutral */
+    .jamat-label {
+      font-size: 13px;
+      color: var(--secondary-text);
+      margin-top: -2px;
+      margin-bottom: 2px;
+      text-align: center;
+      font-weight: 500;
+    }
+    .prayer-time-secondary {
+      font-size: 15px;
+      color: var(--primary-color);
+      margin-top: 2px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* Community Section */
+    .community-card {
+      background-color: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border-color);
+      margin-bottom: 20px;
+      position: relative;
+    }
+    /* "Masjid Announcement" badge */
+    .announcement-badge {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      background-color: var(--accent-color);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 15px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    .announcement-date {
+      font-size: 13px;
+      color: var(--secondary-text);
+      margin-bottom: 6px;
+    }
+    .announcement-text {
+      font-size: 16px;
+      line-height: 1.4;
+    }
+
+    /* "Now" & "Next" Badges */
+    .current-prayer::after,
+    .next-prayer::after {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      content: attr(data-badge);
+    }
+    .current-prayer[data-badge="Now"]::after {
+      background-color: #30D158; /* iOS green */
+    }
+    .next-prayer[data-badge="Next"]::after {
+      background-color: #FF2D55; /* iOS pink/red */
+    }
+
+    /* Bottom Nav (Pill-based) */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--card-bg);
+      box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 10px 0;
+      z-index: 999;
+    }
+    .nav-pill {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 10px;
+      padding: 10px 14px;
+      border-radius: 30px; /* pill shape */
+      font-size: var(--nav-font-size);
+      font-weight: 600;
+      color: var(--text-color);
+      background-color: transparent;
+      border: 1px solid var(--border-color);
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .nav-pill i {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+    .nav-pill span {
+      display: block;
+      line-height: 1.2;
+    }
+    .nav-pill.active {
+      background-color: var(--primary-color);
+      color: #fff;
+      border-color: var(--primary-color);
+    }
+    .nav-pill:hover:not(.active) {
+      background-color: rgba(0, 0, 0, 0.05);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 600px) {
+      .prayer-cards {
+        grid-template-columns: 1fr 1fr;
+      }
+      .prayer-card {
+        padding: 16px;
+      }
+      .prayer-name {
+        font-size: 16px;
+      }
+      .prayer-time {
+        font-size: 22px;
+      }
+    }
+    @media (max-width: 400px) {
+      .prayer-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1>Jalalabad Mosque</h1>
+    </header>
+    
+    <!-- Date & Ramadan Info -->
+    <div class="date-section">
+      <div class="date-display" id="current-date">Friday, February 28, 2025</div>
+      <div class="ramadan-counter" id="ramadan-counter">
+        <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
+          <path d="M12 2.25A9.75 9.75 0 1021.75 12 9.76 9.76 0 0012 2.25zm0 17.25A7.5 7.5 0 1119.5 12 7.5 7.5 0 0112 19.5z" fill-opacity="0.3"/>
+          <path d="M12 22.5A10.5 10.5 0 0112 1.5a10.49 10.49 0 018 3.73 9.75 9.75 0 00-8 15.52A10.37 10.37 0 0112 22.5z"/>
+        </svg>
+        Ramadan: Day 1
+      </div>
+    </div>
+
+    <!-- Timetable Section -->
+    <section id="timetable-section">
+      <div class="prayer-cards" id="prayer-cards"></div>
+    </section>
+
+    <!-- Community Section -->
+    <section id="community-section">
+      <div class="community-card">
+        <!-- "Masjid Announcement" badge -->
+        <div class="announcement-badge">Masjid Announcement</div>
+        
+        <div class="announcement-date">Feb 28, 2025</div>
+        <div class="announcement-text">
+          Taraweeh prayers begin tonight at 8PM - ladies and mens facilities available.
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Bottom Nav (Icons + Text) -->
+  <div class="bottom-nav">
+    <button class="nav-pill" id="nav-timetable" aria-label="Timetable">
+      <i class="wi wi-day-sunny" aria-hidden="true"></i>
+      <span>Timetable</span>
+    </button>
+    <button class="nav-pill" id="nav-community" aria-label="Community">
+      <i class="wi wi-cloudy-gusts" aria-hidden="true"></i>
+      <span>Community</span>
+    </button>
+  </div>
+  
+  <script>
+    /*******************************************************
+     * 1. Display Current Date
+     *******************************************************/
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const currentDate = new Date().toLocaleDateString('en-US', dateOptions);
+    document.getElementById('current-date').textContent = currentDate;
+
+    /*******************************************************
+     * 2. Ramadan Day Calculation
+     *******************************************************/
+    const ramadanStart = new Date(2025, 1, 28); // Feb 28, 2025
+    const today = new Date();
+    const dayDiff = Math.floor((today - ramadanStart) / (1000 * 60 * 60 * 24)) + 1;
+    const ramadanCounter = document.getElementById('ramadan-counter');
+
+    if (dayDiff > 0 && dayDiff <= 30) {
+      ramadanCounter.textContent = `Ramadan: Day ${dayDiff}`;
+    } else if (dayDiff > 30) {
+      ramadanCounter.textContent = 'Ramadan has ended';
+    } else {
+      ramadanCounter.textContent = `${Math.abs(dayDiff)} days until Ramadan`;
+    }
+
+    /*******************************************************
+     * 3. Prayer Data (Using Erik Flowers' Weather Icons)
+     *******************************************************/
+    const prayers = [
+      { 
+        name: "Fajr", 
+        startTime: "05:13 AM", 
+        jamatTime: "05:33 AM", 
+        label: null,
+        iconClass: "wi-horizon"
+      },
+      { 
+        name: "Sunrise",  
+        startTime: "06:33 AM", 
+        jamatTime: null,
+        label: null,
+        iconClass: "wi-sunrise"
+      },
+      { 
+        name: "Dhuhr",    
+        startTime: "12:24 PM", 
+        jamatTime: "01:15 PM", 
+        label: null,
+        iconClass: "wi-day-sunny"
+      },
+      { 
+        name: "Asr",      
+        startTime: "03:54 PM", 
+        jamatTime: "04:30 PM", 
+        label: null,
+        iconClass: "wi-day-sunny-overcast"
+      },
+      { 
+        name: "Maghrib",  
+        startTime: "05:47 PM", 
+        jamatTime: "05:47 PM", 
+        label: null,
+        iconClass: "wi-sunset"
+      },
+      { 
+        name: "Isha | Taraweeh",     
+        startTime: "07:16 PM", 
+        jamatTime: "08:00 PM", 
+        label: null,
+        iconClass: "wi-night-clear"
+      },
+    ];
+
+    /*******************************************************
+     * 4. Convert Time to Minutes for "Now"/"Next" Logic
+     *******************************************************/
+    function timeToMinutes(timeStr) {
+      if (!timeStr) return null;
+      const [time, meridian] = timeStr.split(" ");
+      let [hh, mm] = time.split(":").map(Number);
+      if (meridian === "PM" && hh < 12) hh += 12;
+      if (meridian === "AM" && hh === 12) hh = 0;
+      return hh * 60 + mm;
+    }
+
+    /*******************************************************
+     * 5. Determine Current & Next Prayer
+     *******************************************************/
+    const now = new Date();
+    const currentMins = now.getHours() * 60 + now.getMinutes();
+
+    let prayerMinutes = prayers.map(p => timeToMinutes(p.startTime));
+    let currentIndex = -1;
+    for (let i = 0; i < prayerMinutes.length; i++) {
+      if (prayerMinutes[i] !== null && prayerMinutes[i] <= currentMins) {
+        currentIndex = i;
+      }
+    }
+    if (currentIndex >= 0) {
+      prayers[currentIndex].isCurrent = true;
+    }
+    let nextIndex = currentIndex + 1;
+    if (currentIndex === -1) {
+      nextIndex = prayerMinutes.findIndex(m => m !== null);
+    }
+    if (nextIndex >= 0 && nextIndex < prayers.length) {
+      prayers[nextIndex].isNext = true;
+    }
+
+    /*******************************************************
+     * 6. Render Prayer Cards Dynamically
+     *******************************************************/
+    const cardsContainer = document.getElementById("prayer-cards");
+
+    prayers.forEach((p, idx) => {
+      const card = document.createElement("div");
+      card.className = "prayer-card";
+      
+      // Mark "Now" or "Next"
+      if (p.isCurrent) {
+        card.classList.add("current-prayer");
+        card.setAttribute("data-badge", "Now");
+      } else if (p.isNext) {
+        card.classList.add("next-prayer");
+        card.setAttribute("data-badge", "Next");
+      }
+
+      // Build card HTML
+      card.innerHTML = `
+        <i class="prayer-icon ${p.iconClass}" aria-hidden="true"></i>
+        <div class="prayer-name">${p.name}</div>
+        ${p.label ? `<div class="prayer-label">${p.label}</div>` : ""}
+        <div class="prayer-time">${p.startTime || ""}</div>
+        ${
+          p.jamatTime
+            ? `
+              <div class="jamat-label">Jamaat</div>
+              <div class="prayer-time-secondary">${p.jamatTime}</div>
+            `
+            : ""
+        }
+      `;
+
+      // Append to DOM
+      cardsContainer.appendChild(card);
+
+      // Staggered fade-in effect
+      setTimeout(() => {
+        card.classList.add("fade-in");
+      }, idx * 100);
+    });
+
+    /*******************************************************
+     * 7. Bottom Nav Tab Handling
+     *******************************************************/
+    const timetableSection = document.getElementById("timetable-section");
+    const communitySection = document.getElementById("community-section");
+    const navTimetable = document.getElementById("nav-timetable");
+    const navCommunity = document.getElementById("nav-community");
+
+    // Show timetable by default
+    showTab("timetable");
+
+    function showTab(tab) {
+      if (tab === "timetable") {
+        timetableSection.style.display = "block";
+        communitySection.style.display = "none";
+        navTimetable.classList.add("active");
+        navCommunity.classList.remove("active");
+      } else if (tab === "community") {
+        timetableSection.style.display = "none";
+        communitySection.style.display = "block";
+        navTimetable.classList.remove("active");
+        navCommunity.classList.add("active");
+      }
+    }
+
+    navTimetable.addEventListener("click", () => showTab("timetable"));
+    navCommunity.addEventListener("click", () => showTab("community"));
+  </script>
+</body>
+</html>
