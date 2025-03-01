@@ -3,15 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
-  <!-- Open Graph tags -->
-  <meta property="og:title" content="Jalalabad Masjid" />
+  <title>Jalalabad Mosque</title>
+
+  <!-- Google Font: Inter (for a sleeker look) -->
+  <link
+    rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+  />
+
+  <!-- Favicon (using your GitHub raw PNG) -->
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://raw.githubusercontent.com/JalalabadMasjid/jalalabadmasjid/refs/heads/main/images/jalalabad_masjid_web_app_logo.png"
+  />
+
+  <!-- Open Graph Meta Tags (for WhatsApp, etc.) -->
+  <meta property="og:title" content="Jalalabad Mosque" />
   <meta property="og:description" content="Prayer Timetable & Community Updates" />
   <meta property="og:url" content="https://jalalabadmasjid.github.io/jalalabadmasjid/" />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://raw.githubusercontent.com/JalalabadMasjid/jalalabadmasjid/refs/heads/main/images/jalalabad_masjid_web_app_logo.png" />
+  <meta
+    property="og:image"
+    content="https://raw.githubusercontent.com/JalalabadMasjid/jalalabadmasjid/refs/heads/main/images/jalalabad_masjid_web_app_logo.png"
+  />
 
-
-  <title>Jalalabad Mosque</title>
   <!-- Weather Icons by Erik Flowers (v2.0.9) -->
   <link
     rel="stylesheet"
@@ -20,7 +36,7 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
-  <!-- Font Awesome for nicer arrow icons -->
+  <!-- Font Awesome for icons -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -68,7 +84,6 @@
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -79,11 +94,14 @@
     }
 
     body {
+      /* Use Inter if available, otherwise system fonts */
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      -webkit-text-size-adjust: 100%;
     }
 
     .container {
@@ -99,7 +117,7 @@
     header {
       text-align: center;
       margin-bottom: 8px;
-      padding: 0; /* Minimizing extra spacing so title is lifted up */
+      padding: 0;
       position: relative;
     }
     header h1 {
@@ -163,9 +181,10 @@
       height: 16px;
     }
 
-    /* Sections (Timetable / Community) */
+    /* Sections (Timetable / Community / About) */
     #timetable-section,
-    #community-section {
+    #community-section,
+    #about-section {
       display: none; /* toggled via JS */
     }
 
@@ -259,7 +278,7 @@
       font-weight: 600;
     }
 
-    /* Community Section */
+    /* Community & About Section fade classes */
     .community-fade {
       opacity: 0;
       transform: translateY(10px);
@@ -314,6 +333,7 @@
     }
     .current-prayer[data-badge="Now"]::after {
       background-color: #30D158;
+      
     }
     .next-prayer[data-badge="Next"]::after {
       background-color: #FF2D55;
@@ -331,7 +351,7 @@
       line-height: 1.3;
     }
 
-    /* Bottom Nav (Pill-based, now invisible background) */
+    /* Bottom Nav (Pill-based, invisible background) */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -455,8 +475,9 @@
           <div class="announcement-badge">Masjid Announcement</div>
           <div class="announcement-date">Feb 28, 2025</div>
           <div class="announcement-text">
-            Ramadan Mubarak!<br><br>
-            The moon has been sighted, and Taraweeh prayers will begin tonight at 8 PM. For men, the prayers are in the main building, and for women, please use the rear prayer room. Kindly refrain from loitering after prayer.
+            Ramadan Mubarak!<br>
+            The moon has been sighted, and Taraweeh prayers will begin tonight at 8 PM. As usual, the men's prayer area will be in the main building, while the women's prayer area will be in the rear building. Ladies' WC facilities are accessible via the side entrance of the main building. <br><br> 
+            A friendly reminder: No food is allowed during Taraweeh prayers. To be respectful of our neighbours, please avoid loitering outside the masjid when leaving.
           </div>
         </div>
       </div>
@@ -470,24 +491,52 @@
         </a>
       </div>
     </section>
+
+    <!-- About Section -->
+    <section id="about-section">
+      <!-- New date display, just like Community -->
+      <div class="date-section">
+        <div class="date-display">
+          <span id="about-date">Saturday, March 1, 2025</span>
+        </div>
+      </div>
+
+      <div class="community-fade">
+        <div class="community-card">
+          <h2 style="margin-bottom: 8px;">About </h2>
+          <p style="margin-top: 6px; line-height: 1.4;">
+            This is a community project webbsite built for personal use. It is not formally 
+            affiliated with or approved by the masjid committee. If you find it 
+            useful, great! If you have any issues, please contact us via the community tab.
+          </p>
+        </div>
+      </div>
+    </section>
   </div>
 
   <!-- Bottom Nav (Invisible bar, visible pills) -->
   <div class="bottom-nav">
+    <!-- Timetable Pill -->
     <button class="nav-pill" id="nav-timetable" aria-label="Timetable">
       <i class="wi wi-day-sunny" aria-hidden="true"></i>
       <span>Timetable</span>
     </button>
+    <!-- Community Pill -->
     <button class="nav-pill" id="nav-community" aria-label="Community">
       <i class="wi wi-cloudy-gusts" aria-hidden="true"></i>
       <span>Community</span>
+    </button>
+    <!-- About Pill -->
+    <button class="nav-pill" id="nav-about" aria-label="About">
+      <i class="wi wi-stars" aria-hidden="true"></i>
+      <span>About</span>
     </button>
   </div>
   
   <script>
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    // Prayer Data Array (dates in dd/mm/yy format) with 7 days
+    // Prayer Data Array (dates in dd/mm/yy format)
     const prayerData = [
       {
         date: "01/03/25",
@@ -616,10 +665,11 @@
       return dateObj.toLocaleDateString('en-US', dateOptions);
     }
 
-    // Determine today's date index if available
+    // Find today's date index if available
     let currentPrayerIndex = prayerData.findIndex(row => row.date === getTodayString());
     if (currentPrayerIndex === -1) currentPrayerIndex = 0;
 
+    // Render prayer cards
     function renderPrayers(selectedRow) {
       const cardsContainer = document.getElementById("prayer-cards");
       cardsContainer.innerHTML = "";
@@ -638,6 +688,7 @@
           { name: "Isha | Taraweeh", startTime: selectedRow.isha, jamatTime: selectedRow.ishaJamaat, iconClass: "wi-night-clear" }
         ];
       } else {
+        // fallback if no row found
         prayers = [
           { name: "Fajr", startTime: "--", jamatTime: "--", iconClass: "wi-horizon" },
           { name: "Sunrise", startTime: "--", jamatTime: null, iconClass: "wi-sunrise" },
@@ -709,7 +760,7 @@
       });
     }
 
-    // UPDATED: Ramadan day calculation
+    // Ramadan Day logic
     function updateRamadanCounter(selectedRow) {
       const ramadanCounter = document.getElementById('ramadan-counter');
       if (!selectedRow) {
@@ -745,8 +796,10 @@
       const selectedRow = prayerData[index];
       // Update the timetable date
       document.getElementById('current-date').textContent = formatDisplayDate(selectedRow.date);
-      // Also update the community date to match
+      // Update the community date
       document.getElementById('community-date').textContent = formatDisplayDate(selectedRow.date);
+      // NEW: Also update the About date
+      document.getElementById('about-date').textContent = formatDisplayDate(selectedRow.date);
 
       renderPrayers(selectedRow);
       updateRamadanCounter(selectedRow);
@@ -772,21 +825,53 @@
     // Bottom nav tab handling
     const timetableSection = document.getElementById("timetable-section");
     const communitySection = document.getElementById("community-section");
+    const aboutSection = document.getElementById("about-section");
+
     const navTimetable = document.getElementById("nav-timetable");
     const navCommunity = document.getElementById("nav-community");
+    const navAbout = document.getElementById("nav-about");
 
     function showTab(tab) {
       if (tab === "timetable") {
         timetableSection.style.display = "block";
         communitySection.style.display = "none";
+        aboutSection.style.display = "none";
+
         navTimetable.classList.add("active");
         navCommunity.classList.remove("active");
+        navAbout.classList.remove("active");
+
       } else if (tab === "community") {
         timetableSection.style.display = "none";
         communitySection.style.display = "block";
+        aboutSection.style.display = "none";
+
         navTimetable.classList.remove("active");
         navCommunity.classList.add("active");
+        navAbout.classList.remove("active");
+
+        // Fade in community items
         const fadeItems = communitySection.querySelectorAll(".community-fade");
+        fadeItems.forEach((item, idx) => {
+          item.classList.remove("fade-in");
+          item.style.opacity = 0;
+          item.style.transform = "translateY(10px)";
+          setTimeout(() => {
+            item.classList.add("fade-in");
+          }, idx * 100);
+        });
+
+      } else if (tab === "about") {
+        timetableSection.style.display = "none";
+        communitySection.style.display = "none";
+        aboutSection.style.display = "block";
+
+        navTimetable.classList.remove("active");
+        navCommunity.classList.remove("active");
+        navAbout.classList.add("active");
+
+        // Fade in the about items
+        const fadeItems = aboutSection.querySelectorAll(".community-fade");
         fadeItems.forEach((item, idx) => {
           item.classList.remove("fade-in");
           item.style.opacity = 0;
@@ -798,11 +883,13 @@
       }
     }
 
-    // Default to Timetable
+    // Default to Timetable tab
     showTab("timetable");
 
+    // Nav button listeners
     navTimetable.addEventListener("click", () => showTab("timetable"));
     navCommunity.addEventListener("click", () => showTab("community"));
+    navAbout.addEventListener("click", () => showTab("about"));
   </script>
 </body>
 </html>
