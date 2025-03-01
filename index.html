@@ -32,7 +32,8 @@
       --shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
 
       /* Typography */
-      --title-font-size: 30px;
+      --title-font-size: 34px;
+      --title-weight: 700;
       --time-font-size: 26px;
       --label-font-size: 14px;
       --nav-font-size: 13px;
@@ -81,14 +82,19 @@
     /* Header */
     header {
       text-align: center;
-      margin-bottom: 8px;
-      padding: 20px 0 10px;
+      margin-bottom: var(--spacing-md);
+      padding: var(--spacing-lg) 0 var(--spacing-sm);
+      position: relative;
     }
     header h1 {
       font-size: var(--title-font-size);
-      font-weight: 700;
+      font-weight: var(--title-weight);
       letter-spacing: -0.5px;
-      margin-bottom: 4px;
+      margin-bottom: var(--spacing-xs);
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     /* Date & Ramadan Info */
@@ -382,9 +388,9 @@
         <div class="community-card">
           <!-- "Masjid Announcement" badge -->
           <div class="announcement-badge">Masjid Announcement</div>
-          <div class="announcement-date">Mar 1, 2025</div>
+          <div class="announcement-date">Feb 28, 2025</div>
           <div class="announcement-text">
-            Taraweeh prayers begin tonight at 8PM - ladies and mens facilities available.
+            Ramadan Mubarak! <br> <br> The moon has been sighted, and so Taraweeh prayers will begin tonight at 8 PM. For men, the prayers will be held in the main building, while the ladies' prayer room is located in the rear building. Ladies' toilets can be accessed via the side entrance of the main building. <br> <br>Gentle reminder: there will be no food allowed during Taraweeh, and we kindly ask that everyone refrains from loitering outside the masjid after prayer to respect our neighbours.
           </div>
         </div>
       </div>
