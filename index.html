@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
-  <link rel="apple-touch-icon" sizes="180x180" href="https://github.com/CarpeDiemJay/CarpeDiemJay.github.io/blob/main/images/185X180.png?raw=true">
   <title>Jalalabad Mosque</title>
   <!-- Weather Icons by Erik Flowers (v2.0.9) -->
   <link
@@ -14,8 +13,13 @@
     referrerpolicy="no-referrer"
   />
   <!-- Font Awesome for nicer arrow icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="icon" href="https://github.com/CarpeDiemJay/CarpeDiemJay.github.io/blob/f84bae6385c380ca92ca665088dd4b49e2897e21/images/jalalabad_logo_v1.png?raw=true" type="image/png">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  
   <style>
     :root {
       /* Core Colors */
@@ -61,36 +65,40 @@
       -moz-osx-font-smoothing: grayscale;
     }
 
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
     body {
       background-color: var(--bg-color);
       color: var(--text-color);
       display: flex;
       flex-direction: column;
       min-height: 100vh;
-      margin: 0;
     }
 
     .container {
       max-width: 800px;
       width: 100%;
       margin: 0 auto;
-      padding: 20px;
-      padding-bottom: 120px; /* extra space for bottom nav */
+      padding: 12px 20px;
+      padding-bottom: 70px; /* Enough bottom padding so content isn't hidden behind nav pills */
       flex: 1;
     }
 
     /* Header */
     header {
       text-align: center;
-      margin-bottom: 20px;
-      padding: 24px 0 12px;
+      margin-bottom: 8px;
+      padding: 0; /* Minimizing extra spacing so title is lifted up */
       position: relative;
     }
     header h1 {
       font-size: var(--title-font-size);
       font-weight: var(--title-weight);
       letter-spacing: -0.5px;
-      margin-bottom: 4px;
+      margin: 0;
       background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -100,7 +108,7 @@
     /* Date & Ramadan Info */
     .date-section {
       text-align: center;
-      margin: 10px 0 20px;
+      margin: 8px 0 14px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -137,7 +145,7 @@
       border-radius: 15px;
       font-size: 14px;
       font-weight: 600;
-      margin-top: 10px;
+      margin-top: 8px;
       display: inline-flex;
       align-items: center;
     }
@@ -158,14 +166,14 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 16px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
     }
 
     /* Prayer Card */
     .prayer-card {
       background-color: var(--card-bg);
       border-radius: var(--border-radius);
-      padding: 24px;
+      padding: 20px;
       box-shadow: var(--shadow);
       border: 1px solid var(--border-color);
       display: flex;
@@ -197,8 +205,8 @@
 
     /* Prayer Icon */
     .prayer-icon {
-      font-size: 45px;
-      margin-bottom: 15px;
+      font-size: 42px;
+      margin-bottom: 12px;
       color: var(--primary-color);
       flex-shrink: 0;
     }
@@ -207,13 +215,13 @@
     .prayer-name {
       font-size: 18px;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       text-align: center;
     }
     .prayer-label {
       font-size: var(--label-font-size);
       color: var(--secondary-text);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       text-align: center;
       background-color: rgba(0, 122, 255, 0.1);
       border-radius: 12px;
@@ -254,10 +262,10 @@
     .community-card {
       background-color: var(--card-bg);
       border-radius: var(--border-radius);
-      padding: 20px;
+      padding: 16px;
       box-shadow: var(--shadow);
       border: 1px solid var(--border-color);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       position: relative;
     }
     .announcement-badge {
@@ -278,7 +286,7 @@
       margin-bottom: 6px;
     }
     .announcement-text {
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.4;
     }
 
@@ -306,26 +314,29 @@
     /* Hadith Footer (only on Timetable Section) */
     .hadith-footer {
       text-align: center;
-      margin: 20px 0;
-      padding: 16px;
+      margin: 15px 0;
+      padding: 8px;
       background-color: var(--accent-color);
       color: #fff;
       border-radius: var(--border-radius);
-      font-size: 16px;
+      font-size: 14px;
+      line-height: 1.3;
     }
 
-    /* Bottom Nav (Pill-based) */
+    /* Bottom Nav (Pill-based, now invisible background) */
     .bottom-nav {
       position: fixed;
       bottom: 0;
       left: 0;
       width: 100%;
-      background-color: var(--card-bg);
-      box-shadow: 0 -1px 5px rgba(0,0,0,0.1);
+      background-color: transparent;
+      box-shadow: none;
+      /* iOS safe-area inset to avoid home indicator overlap */
+      padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 10px 0;
+      padding-top: 14px;
       z-index: 999;
     }
     .nav-pill {
@@ -333,7 +344,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin: 0 10px;
+      margin: 0 12px;
       padding: 10px 14px;
       border-radius: 30px;
       font-size: var(--nav-font-size);
@@ -345,7 +356,7 @@
       transition: background-color 0.3s ease, color 0.3s ease;
     }
     .nav-pill i {
-      font-size: 22px;
+      font-size: 20px;
       margin-bottom: 4px;
     }
     .nav-pill span {
@@ -390,29 +401,31 @@
       <h1>Jalalabad Mosque</h1>
     </header>
     
-    <!-- Date & Ramadan Info -->
-    <div class="date-section">
-      <div class="date-display">
-        <button id="prev-date" class="date-nav-btn" aria-label="Previous Date">
-          <i class="fas fa-chevron-left"></i>
-        </button>
-        <span id="current-date">Saturday, March 1, 2025</span>
-        <button id="next-date" class="date-nav-btn" aria-label="Next Date">
-          <i class="fas fa-chevron-right"></i>
-        </button>
-      </div>
-      <div class="ramadan-counter" id="ramadan-counter">
-        <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
-          <path d="M12 2.25A9.75 9.75 0 1021.75 12 9.76 9.76 0 0012 2.25zm0 17.25A7.5 7.5 0 1119.5 12 7.5 7.5 0 0112 19.5z" fill-opacity="0.3"/>
-          <path d="M12 22.5A10.5 10.5 0 0112 1.5a10.49 10.49 0 018 3.73 9.75 9.75 0 00-8 15.52A10.37 10.37 0 0112 22.5z"/>
-        </svg>
-        Ramadan: Day 1
-      </div>
-    </div>
-
     <!-- Timetable Section -->
     <section id="timetable-section">
+      <!-- Date & Ramadan Info only for Timetable -->
+      <div class="date-section">
+        <div class="date-display">
+          <button id="prev-date" class="date-nav-btn" aria-label="Previous Date">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <span id="current-date">Saturday, March 1, 2025</span>
+          <button id="next-date" class="date-nav-btn" aria-label="Next Date">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+        <div class="ramadan-counter" id="ramadan-counter">
+          <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
+            <path d="M12 2.25A9.75 9.75 0 1021.75 12 A9.76 9.76 0 0012 2.25zm0 17.25A7.5 7.5 0 1119.5 12 A7.5 7.5 0 0112 19.5z" fill-opacity="0.3"/>
+            <path d="M12 22.5A10.5 10.5 0 0112 1.5a10.49 10.49 0 018 3.73 9.75 9.75 0 00-8 15.52A10.37 10.37 0 0112 22.5z"/>
+          </svg>
+          Ramadan: Day 1
+        </div>
+      </div>
+
+      <!-- Prayer Cards -->
       <div class="prayer-cards" id="prayer-cards"></div>
+      
       <!-- Hadith Footer visible only in Timetable Section -->
       <div class="hadith-footer">
         "The best charity is that given in Ramadan."<br>
@@ -422,6 +435,13 @@
 
     <!-- Community Section -->
     <section id="community-section">
+      <!-- A simpler date display: no toggles, no Ramadan counter -->
+      <div class="date-section">
+        <div class="date-display">
+          <span id="community-date">Saturday, March 1, 2025</span>
+        </div>
+      </div>
+
       <div class="community-fade">
         <div class="community-card">
           <div class="announcement-badge">Masjid Announcement</div>
@@ -444,7 +464,7 @@
     </section>
   </div>
 
-  <!-- Bottom Nav -->
+  <!-- Bottom Nav (Invisible bar, visible pills) -->
   <div class="bottom-nav">
     <button class="nav-pill" id="nav-timetable" aria-label="Timetable">
       <i class="wi wi-day-sunny" aria-hidden="true"></i>
@@ -459,7 +479,7 @@
   <script>
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    // Prayer Data Array with the provided 7 days of prayer times
+    // Prayer Data Array (dates in dd/mm/yy format) with 7 days
     const prayerData = [
       {
         date: "01/03/25",
@@ -561,6 +581,16 @@
       }
     ];
 
+    // Helper to get today's date string in dd/mm/yy
+    function getTodayString() {
+      const d = new Date();
+      const dd = String(d.getDate()).padStart(2, "0");
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const yy = String(d.getFullYear()).slice(-2);
+      return `${dd}/${mm}/${yy}`;
+    }
+
+    // Convert "5:47 PM" -> total minutes from midnight
     function timeToMinutes(timeStr) {
       if (!timeStr || timeStr === "--") return null;
       const [time, meridian] = timeStr.split(" ");
@@ -570,6 +600,7 @@
       return hh * 60 + mm;
     }
 
+    // Format "dd/mm/yy" to full date (e.g., "Saturday, March 1, 2025")
     function formatDisplayDate(dateStr) {
       const [dd, mm, yy] = dateStr.split("/");
       const fullYear = 2000 + parseInt(yy);
@@ -577,19 +608,17 @@
       return dateObj.toLocaleDateString('en-US', dateOptions);
     }
 
-    let currentPrayerIndex = prayerData.findIndex(row => {
-      const d = new Date();
-      const dd = String(d.getDate()).padStart(2, "0");
-      const mm = String(d.getMonth() + 1).padStart(2, "0");
-      const yy = String(d.getFullYear()).slice(-2);
-      const todayStr = `${dd}/${mm}/${yy}`;
-      return row.date === todayStr;
-    });
+    // Determine today's date index if available
+    let currentPrayerIndex = prayerData.findIndex(row => row.date === getTodayString());
     if (currentPrayerIndex === -1) currentPrayerIndex = 0;
 
     function renderPrayers(selectedRow) {
       const cardsContainer = document.getElementById("prayer-cards");
       cardsContainer.innerHTML = "";
+
+      // We'll only show "Now"/"Next" if selected date = today
+      const isToday = (selectedRow.date === getTodayString());
+
       let prayers = [];
       if (selectedRow) {
         prayers = [
@@ -611,26 +640,30 @@
         ];
       }
 
-      const now = new Date();
-      const nowMins = now.getHours() * 60 + now.getMinutes();
-      const prayerMinutes = prayers.map(p => timeToMinutes(p.startTime));
-      let currentIndex = -1;
-      for (let i = 0; i < prayerMinutes.length; i++) {
-        if (prayerMinutes[i] !== null && prayerMinutes[i] <= nowMins) {
-          currentIndex = i;
+      // Determine current & next prayer based on current time (only if it's today)
+      if (isToday) {
+        const now = new Date();
+        const nowMins = now.getHours() * 60 + now.getMinutes();
+        const prayerMinutes = prayers.map(p => timeToMinutes(p.startTime));
+        let currentIndex = -1;
+        for (let i = 0; i < prayerMinutes.length; i++) {
+          if (prayerMinutes[i] !== null && prayerMinutes[i] <= nowMins) {
+            currentIndex = i;
+          }
+        }
+        if (currentIndex >= 0) {
+          prayers[currentIndex].isCurrent = true;
+        }
+        let nextIndex = currentIndex + 1;
+        if (currentIndex === -1) {
+          nextIndex = prayerMinutes.findIndex(m => m !== null);
+        }
+        if (nextIndex >= 0 && nextIndex < prayers.length) {
+          prayers[nextIndex].isNext = true;
         }
       }
-      if (currentIndex >= 0) {
-        prayers[currentIndex].isCurrent = true;
-      }
-      let nextIndex = currentIndex + 1;
-      if (currentIndex === -1) {
-        nextIndex = prayerMinutes.findIndex(m => m !== null);
-      }
-      if (nextIndex >= 0 && nextIndex < prayers.length) {
-        prayers[nextIndex].isNext = true;
-      }
 
+      // Render each prayer card
       prayers.forEach((p, idx) => {
         const card = document.createElement("div");
         card.className = "prayer-card";
@@ -644,58 +677,77 @@
         card.innerHTML = `
           <i class="prayer-icon ${p.iconClass}" aria-hidden="true"></i>
           <div class="prayer-name">${p.name}</div>
-          ${ p.label ? `<div class="prayer-label">${p.label}</div>` : "" }
+          ${
+            p.label
+              ? `<div class="prayer-label">${p.label}</div>`
+              : ""
+          }
           <div class="prayer-time">${p.startTime || ""}</div>
           ${
-            p.jamatTime ? `
-              <div class="jamat-label">Jamaat</div>
-              <div class="prayer-time-secondary">${p.jamatTime}</div>
-            ` : ""
+            p.jamatTime
+              ? `
+                <div class="jamat-label">Jamaat</div>
+                <div class="prayer-time-secondary">${p.jamatTime}</div>
+              `
+              : ""
           }
         `;
         cardsContainer.appendChild(card);
+
+        // Staggered fade-in
         setTimeout(() => {
           card.classList.add("fade-in");
         }, idx * 100);
       });
     }
 
+    // UPDATED: Ramadan day calculation
     function updateRamadanCounter(selectedRow) {
       const ramadanCounter = document.getElementById('ramadan-counter');
-      const now = new Date();
-      const currentMins = now.getHours() * 60 + now.getMinutes();
-      let ramadanDay;
-      if (selectedRow) {
-        const maghribTime = timeToMinutes(selectedRow.maghrib);
-        if (currentMins < maghribTime) {
-          ramadanDay = currentPrayerIndex + 1;
-        } else {
-          ramadanDay = currentPrayerIndex + 2;
-        }
-        ramadanCounter.textContent = (ramadanDay <= 30) ? `Ramadan: Day ${ramadanDay}` : 'Ramadan has ended';
+      if (!selectedRow) {
+        ramadanCounter.textContent = 'Ramadan has ended';
+        return;
+      }
+
+      // Ramadan starts March 1, 2025
+      const ramadanStart = new Date(2025, 2, 1);
+
+      // Convert "dd/mm/yy" to Date
+      const [dd, mm, yy] = selectedRow.date.split("/");
+      const fullYear = 2000 + parseInt(yy);
+      const month = parseInt(mm) - 1; // zero-based
+      const day = parseInt(dd);
+      const selectedDateObj = new Date(fullYear, month, day);
+
+      // Difference in days from Ramadan start
+      const diffTime = selectedDateObj - ramadanStart; // ms
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const ramadanDay = diffDays + 1; // e.g. March 1 => 0+1 => Day 1
+
+      if (ramadanDay < 1) {
+        ramadanCounter.textContent = 'Ramadan has not started yet';
+      } else if (ramadanDay > 30) {
+        ramadanCounter.textContent = 'Ramadan has ended';
       } else {
-        const ramadanStart = new Date(2025, 1, 28);
-        if (now < ramadanStart) {
-          const diffDays = Math.ceil((ramadanStart - now) / (1000 * 60 * 60 * 24));
-          ramadanCounter.textContent = `${diffDays} days until Ramadan`;
-        } else {
-          ramadanCounter.textContent = 'Ramadan has ended';
-        }
+        ramadanCounter.textContent = `Ramadan: Day ${ramadanDay}`;
       }
     }
 
     function updateDisplay(index) {
       const selectedRow = prayerData[index];
-      // Update the full, user-friendly date based on the short date value.
+      // Update the timetable date
       document.getElementById('current-date').textContent = formatDisplayDate(selectedRow.date);
+      // Also update the community date to match
+      document.getElementById('community-date').textContent = formatDisplayDate(selectedRow.date);
+
       renderPrayers(selectedRow);
       updateRamadanCounter(selectedRow);
     }
 
-    // Initialize the display
+    // Initialize
     updateDisplay(currentPrayerIndex);
 
-    // Event Listeners for date navigation buttons
+    // Date nav
     document.getElementById('prev-date').addEventListener('click', () => {
       if (currentPrayerIndex > 0) {
         currentPrayerIndex--;
@@ -709,7 +761,7 @@
       }
     });
 
-    // Bottom Navigation Tab Handling
+    // Bottom nav tab handling
     const timetableSection = document.getElementById("timetable-section");
     const communitySection = document.getElementById("community-section");
     const navTimetable = document.getElementById("nav-timetable");
@@ -738,6 +790,7 @@
       }
     }
 
+    // Default to Timetable
     showTab("timetable");
 
     navTimetable.addEventListener("click", () => showTab("timetable"));
