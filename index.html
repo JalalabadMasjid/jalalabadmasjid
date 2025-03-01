@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, maximum-scale=1.0, user-scalable=no" />
   <title>Jalalabad Mosque</title>
 
-  <!-- Google Font: Inter (for a sleeker look) -->
+  <!-- Google Font: Inter -->
   <link
     rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
   />
 
-  <!-- Favicon (using your GitHub raw PNG) -->
+  <!-- Favicon -->
   <link
     rel="icon"
     type="image/png"
     href="https://raw.githubusercontent.com/JalalabadMasjid/jalalabadmasjid/refs/heads/main/images/jalalabad_masjid_web_app_logo.png"
   />
 
-  <!-- Open Graph Meta Tags (for WhatsApp, etc.) -->
+  <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Jalalabad Mosque" />
   <meta property="og:description" content="Prayer Timetable & Community Updates" />
   <meta property="og:url" content="https://jalalabadmasjid.github.io/jalalabadmasjid/" />
@@ -28,7 +28,7 @@
     content="https://raw.githubusercontent.com/JalalabadMasjid/jalalabadmasjid/refs/heads/main/images/jalalabad_masjid_web_app_logo.png"
   />
 
-  <!-- Weather Icons by Erik Flowers (v2.0.9) -->
+  <!-- Weather Icons (for prayer cards) -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/weather-icons/2.0.9/css/weather-icons.min.css"
@@ -36,19 +36,19 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
-  <!-- Font Awesome for icons -->
+  <!-- Font Awesome (for bottom nav icons, etc.) -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
-  
+
   <style>
     :root {
       /* Core Colors */
       --primary-color: #007AFF;
-      --accent-color: #5E5CE6;   
+      --accent-color: #5E5CE6;
       --bg-color: #F5F5F7;
       --card-bg: #FFFFFF;
       --text-color: #1C1C1E;
@@ -71,7 +71,7 @@
       :root {
         --primary-color: #0A84FF;
         --accent-color: #5E5CE6;
-        --bg-color: #000000; 
+        --bg-color: #000000;
         --card-bg: #1C1C1E;
         --text-color: #FFFFFF;
         --secondary-text: #98989D;
@@ -94,7 +94,6 @@
     }
 
     body {
-      /* Use Inter if available, otherwise system fonts */
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--bg-color);
       color: var(--text-color);
@@ -104,7 +103,7 @@
       -webkit-text-size-adjust: 100%;
     }
 
-    /* Make all paragraphs 15px to match Community & About */
+    /* Make all paragraphs 15px */
     p {
       font-size: 15px;
       line-height: 1.4;
@@ -114,8 +113,7 @@
       max-width: 800px;
       width: 100%;
       margin: 0 auto;
-      padding: 12px 20px;
-      padding-bottom: 70px; /* Enough bottom padding so content isn't hidden behind nav pills */
+      padding: 12px 20px 20px;
       flex: 1;
     }
 
@@ -187,7 +185,7 @@
       height: 16px;
     }
 
-    /* Sections (Timetable / Community / About) */
+    /* Timetable / Community / About Sections */
     #timetable-section,
     #community-section,
     #about-section {
@@ -334,14 +332,12 @@
     .next-prayer[data-badge="Next"]::after {
       background-color: #FF2D55;
     }
-
-    /* NEW: Highlight entire card when it's "Now" */
     .current-prayer {
       border: 3px solid var(--accent-color) !important;
       box-shadow: 0 0 10px rgba(94, 92, 230, 0.2) !important;
     }
 
-    /* Hadith Footer (only on Timetable Section) */
+    /* Hadith Footer (we'll place this above the prayer cards) */
     .hadith-footer {
       text-align: center;
       margin: 15px 0;
@@ -353,53 +349,55 @@
       line-height: 1.3;
     }
 
-    /* Bottom Nav (Pill-based, invisible background) */
+    /* Bottom Nav (single pill) */
     .bottom-nav {
       position: fixed;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      background-color: transparent;
-      box-shadow: none;
-      /* iOS safe-area inset to avoid home indicator overlap */
-      padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
       display: flex;
-      justify-content: center;
       align-items: center;
-      padding-top: 14px;
+      background-color: var(--card-bg);
+      border-radius: 9999px; /* pill shape */
+      box-shadow: var(--shadow);
+      padding: 8px;
       z-index: 999;
     }
-    .nav-pill {
+    .nav-item {
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
-      margin: 0 12px;
-      padding: 10px 14px;
-      border-radius: 30px;
-      font-size: var(--nav-font-size);
-      font-weight: 600;
-      color: var(--text-color);
-      background-color: transparent;
-      border: 1px solid var(--border-color);
+      border: none;
+      background: transparent;
       cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
+      border-radius: 9999px;
+      margin: 0 4px;
+      padding: 10px 14px;
+      font-size: var(--nav-font-size);
+      color: var(--text-color);
+      transition: background-color 0.2s, color 0.2s;
     }
-    .nav-pill i {
-      font-size: 20px;
-      margin-bottom: 4px;
+    .nav-item i {
+      font-size: 18px;
+      margin-right: 8px;
     }
-    .nav-pill span {
-      display: block;
-      line-height: 1.2;
-    }
-    .nav-pill.active {
-      background-color: var(--primary-color);
+    .nav-item.active {
+      background-color: var(--accent-color);
       color: #fff;
-      border-color: var(--primary-color);
     }
-    .nav-pill:hover:not(.active) {
-      background-color: rgba(0, 0, 0, 0.05);
+    .nav-item.animate-pop {
+      animation: subtlePop 0.4s ease-out forwards;
+    }
+    @keyframes subtlePop {
+      0% {
+        transform: scale(0.95);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     /* Responsive Adjustments */
@@ -421,6 +419,9 @@
       .prayer-cards {
         grid-template-columns: 1fr;
       }
+      .nav-item i {
+        margin-right: 4px;
+      }
     }
   </style>
 </head>
@@ -430,10 +431,10 @@
     <header>
       <h1>Jalalabad Mosque</h1>
     </header>
-    
+
     <!-- Timetable Section -->
     <section id="timetable-section">
-      <!-- Date & Ramadan Info only for Timetable -->
+      <!-- Date & Ramadan Info -->
       <div class="date-section">
         <div class="date-display">
           <button id="prev-date" class="date-nav-btn" aria-label="Previous Date">
@@ -453,19 +454,18 @@
         </div>
       </div>
 
-      <!-- Prayer Cards -->
-      <div class="prayer-cards" id="prayer-cards"></div>
-      
-      <!-- Hadith Footer visible only in Timetable Section -->
+      <!-- Moved hadith above the prayer cards -->
       <div class="hadith-footer">
         The best charity is that given in Ramadan.<br>
         Sunan Tirmidhi, Hadith: 663
       </div>
+
+      <!-- Prayer Cards -->
+      <div class="prayer-cards" id="prayer-cards"></div>
     </section>
 
     <!-- Community Section -->
     <section id="community-section">
-      <!-- A simpler date display: no toggles, no Ramadan counter -->
       <div class="date-section">
         <div class="date-display">
           <span id="community-date">Saturday, March 1, 2025</span>
@@ -496,7 +496,6 @@
 
     <!-- About Section -->
     <section id="about-section">
-      <!-- New date display, just like Community -->
       <div class="date-section">
         <div class="date-display">
           <span id="about-date">Saturday, March 1, 2025</span>
@@ -516,25 +515,27 @@
     </section>
   </div>
 
-  <!-- Bottom Nav (Invisible bar, visible pills) -->
+  <!-- Bottom Nav -->
   <div class="bottom-nav">
-    <!-- Timetable Pill -->
-    <button class="nav-pill" id="nav-timetable" aria-label="Timetable">
-      <i class="wi wi-day-sunny" aria-hidden="true"></i>
-      <span>Timetable</span>
+    <!-- Timetable: active by default -->
+    <button class="nav-item active" id="nav-timetable">
+      <i class="fa-solid fa-clock"></i>
+      Timetable
     </button>
-    <!-- Community Pill -->
-    <button class="nav-pill" id="nav-community" aria-label="Community">
-      <i class="wi wi-cloudy-gusts" aria-hidden="true"></i>
-      <span>Community</span>
+
+    <!-- Community -->
+    <button class="nav-item" id="nav-community">
+      <i class="fa-solid fa-comments"></i>
+      Community
     </button>
-    <!-- About Pill -->
-    <button class="nav-pill" id="nav-about" aria-label="About">
-      <i class="wi wi-stars" aria-hidden="true"></i>
-      <span>About</span>
+
+    <!-- About -->
+    <button class="nav-item" id="nav-about">
+      <i class="fa-solid fa-circle-info"></i>
+      About
     </button>
   </div>
-  
+
   <script>
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
@@ -640,7 +641,7 @@
       }
     ];
 
-    // Helper to get today's date string in dd/mm/yy
+    // Helpers
     function getTodayString() {
       const d = new Date();
       const dd = String(d.getDate()).padStart(2, "0");
@@ -648,8 +649,6 @@
       const yy = String(d.getFullYear()).slice(-2);
       return `${dd}/${mm}/${yy}`;
     }
-
-    // Convert "5:47 PM" -> total minutes from midnight
     function timeToMinutes(timeStr) {
       if (!timeStr || timeStr === "--") return null;
       const [time, meridian] = timeStr.split(" ");
@@ -658,8 +657,6 @@
       if (meridian === "AM" && hh === 12) hh = 0;
       return hh * 60 + mm;
     }
-
-    // Format "dd/mm/yy" to full date (e.g., "Saturday, March 1, 2025")
     function formatDisplayDate(dateStr) {
       const [dd, mm, yy] = dateStr.split("/");
       const fullYear = 2000 + parseInt(yy);
@@ -667,19 +664,17 @@
       return dateObj.toLocaleDateString('en-US', dateOptions);
     }
 
-    // Find today's date index if available
+    // Find today's date index
     let currentPrayerIndex = prayerData.findIndex(row => row.date === getTodayString());
     if (currentPrayerIndex === -1) currentPrayerIndex = 0;
 
-    // Render prayer cards
+    // Render
     function renderPrayers(selectedRow) {
       const cardsContainer = document.getElementById("prayer-cards");
       cardsContainer.innerHTML = "";
-
-      // We'll only show "Now"/"Next" if selected date = today
       const isToday = (selectedRow.date === getTodayString());
-
       let prayers = [];
+
       if (selectedRow) {
         prayers = [
           { name: "Fajr", startTime: selectedRow.fajr, jamatTime: selectedRow.fajrJamaat, iconClass: "wi-horizon" },
@@ -690,7 +685,7 @@
           { name: "Isha | Taraweeh", startTime: selectedRow.isha, jamatTime: selectedRow.ishaJamaat, iconClass: "wi-night-clear" }
         ];
       } else {
-        // fallback if no row found
+        // fallback
         prayers = [
           { name: "Fajr", startTime: "--", jamatTime: "--", iconClass: "wi-horizon" },
           { name: "Sunrise", startTime: "--", jamatTime: null, iconClass: "wi-sunrise" },
@@ -701,7 +696,7 @@
         ];
       }
 
-      // Determine current & next prayer based on current time (only if it's today)
+      // Mark current/next if it's today
       if (isToday) {
         const now = new Date();
         const nowMins = now.getHours() * 60 + now.getMinutes();
@@ -724,7 +719,6 @@
         }
       }
 
-      // Render each prayer card
       prayers.forEach((p, idx) => {
         const card = document.createElement("div");
         card.className = "prayer-card";
@@ -755,36 +749,28 @@
         `;
         cardsContainer.appendChild(card);
 
-        // Staggered fade-in
+        // fade-in
         setTimeout(() => {
           card.classList.add("fade-in");
         }, idx * 100);
       });
     }
 
-    // Ramadan Day logic
     function updateRamadanCounter(selectedRow) {
       const ramadanCounter = document.getElementById('ramadan-counter');
       if (!selectedRow) {
         ramadanCounter.textContent = 'Ramadan has ended';
         return;
       }
-
-      // Ramadan starts March 1, 2025
       const ramadanStart = new Date(2025, 2, 1);
-
-      // Convert "dd/mm/yy" to Date
       const [dd, mm, yy] = selectedRow.date.split("/");
       const fullYear = 2000 + parseInt(yy);
-      const month = parseInt(mm) - 1; // zero-based
+      const month = parseInt(mm) - 1;
       const day = parseInt(dd);
       const selectedDateObj = new Date(fullYear, month, day);
-
-      // Difference in days from Ramadan start
-      const diffTime = selectedDateObj - ramadanStart; // ms
+      const diffTime = selectedDateObj - ramadanStart;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-      const ramadanDay = diffDays + 1; // e.g. March 1 => 0+1 => Day 1
-
+      const ramadanDay = diffDays + 1;
       if (ramadanDay < 1) {
         ramadanCounter.textContent = 'Ramadan has not started yet';
       } else if (ramadanDay > 30) {
@@ -796,13 +782,9 @@
 
     function updateDisplay(index) {
       const selectedRow = prayerData[index];
-      // Update the timetable date
       document.getElementById('current-date').textContent = formatDisplayDate(selectedRow.date);
-      // Update the community date
       document.getElementById('community-date').textContent = formatDisplayDate(selectedRow.date);
-      // Also update the About date
       document.getElementById('about-date').textContent = formatDisplayDate(selectedRow.date);
-
       renderPrayers(selectedRow);
       updateRamadanCounter(selectedRow);
     }
@@ -824,33 +806,32 @@
       }
     });
 
-    // Bottom nav tab handling
+    // Sections
     const timetableSection = document.getElementById("timetable-section");
     const communitySection = document.getElementById("community-section");
     const aboutSection = document.getElementById("about-section");
 
+    // Nav items
     const navTimetable = document.getElementById("nav-timetable");
     const navCommunity = document.getElementById("nav-community");
     const navAbout = document.getElementById("nav-about");
 
+    // Show the selected tab
     function showTab(tab) {
+      [navTimetable, navCommunity, navAbout].forEach(btn => {
+        btn.classList.remove("active", "animate-pop");
+      });
+
       if (tab === "timetable") {
         timetableSection.style.display = "block";
         communitySection.style.display = "none";
         aboutSection.style.display = "none";
-
-        navTimetable.classList.add("active");
-        navCommunity.classList.remove("active");
-        navAbout.classList.remove("active");
-
+        navTimetable.classList.add("active", "animate-pop");
       } else if (tab === "community") {
         timetableSection.style.display = "none";
         communitySection.style.display = "block";
         aboutSection.style.display = "none";
-
-        navTimetable.classList.remove("active");
-        navCommunity.classList.add("active");
-        navAbout.classList.remove("active");
+        navCommunity.classList.add("active", "animate-pop");
 
         // Fade in community items
         const fadeItems = communitySection.querySelectorAll(".community-fade");
@@ -867,12 +848,9 @@
         timetableSection.style.display = "none";
         communitySection.style.display = "none";
         aboutSection.style.display = "block";
+        navAbout.classList.add("active", "animate-pop");
 
-        navTimetable.classList.remove("active");
-        navCommunity.classList.remove("active");
-        navAbout.classList.add("active");
-
-        // Fade in the about items
+        // Fade in about items
         const fadeItems = aboutSection.querySelectorAll(".community-fade");
         fadeItems.forEach((item, idx) => {
           item.classList.remove("fade-in");
@@ -885,10 +863,10 @@
       }
     }
 
-    // Default to Timetable tab
+    // Default to Timetable
     showTab("timetable");
 
-    // Nav button listeners
+    // Click listeners
     navTimetable.addEventListener("click", () => showTab("timetable"));
     navCommunity.addEventListener("click", () => showTab("community"));
     navAbout.addEventListener("click", () => showTab("about"));
