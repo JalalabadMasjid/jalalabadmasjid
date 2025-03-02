@@ -36,7 +36,7 @@
     crossorigin="anonymous"
     referrerpolicy="no-referrer"
   />
-  <!-- Font Awesome (for bottom nav icons, etc.) -->
+  <!-- Font Awesome (for icons) -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -168,24 +168,52 @@
     .date-nav-btn:hover {
       background-color: var(--accent-color);
     }
-    .ramadan-counter {
+
+    /* Ramadan & Iftar counters side by side */
+    .ramadan-iftar-container {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 8px;
+      flex-wrap: wrap; /* so they stack on mobile if needed */
+    }
+
+    .ramadan-counter,
+    .iftar-counter {
       background-color: var(--accent-color);
       color: white;
       padding: 6px 16px;
       border-radius: 15px;
       font-size: 14px;
       font-weight: 600;
-      margin-top: 8px;
       display: inline-flex;
       align-items: center;
+      min-height: 36px;
     }
+
+    /* Ramadan counter icon style */
     .ramadan-counter svg {
       margin-right: 6px;
       width: 16px;
       height: 16px;
     }
 
-    /* Timetable / Community / About Sections */
+    /* Iftar counter icon (Font Awesome utensils) */
+    .iftar-counter i {
+      margin-right: 6px;
+    }
+
+    /* Sections (Timetable / Community / About) */
+    #timetable-section {
+      /* Timetable is normal */
+    }
+    #community-section {
+      margin-top: 20px; /* extra gap at the top of Community */
+    }
+    #about-section {
+      margin-top: 20px; /* extra gap at the top of About */
+    }
+
     #timetable-section,
     #community-section,
     #about-section {
@@ -299,6 +327,13 @@
       margin-bottom: 16px;
       position: relative;
     }
+
+    /* Announcement date smaller & grey */
+    .announcement-date {
+      color: #888;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
     .announcement-badge {
       position: absolute;
       top: -10px;
@@ -335,18 +370,6 @@
     .current-prayer {
       border: 3px solid var(--accent-color) !important;
       box-shadow: 0 0 10px rgba(94, 92, 230, 0.2) !important;
-    }
-
-    /* Hadith Footer (we'll place this above the prayer cards) */
-    .hadith-footer {
-      text-align: center;
-      margin: 15px 0;
-      padding: 8px;
-      background-color: var(--accent-color);
-      color: #fff;
-      border-radius: var(--border-radius);
-      font-size: 14px;
-      line-height: 1.3;
     }
 
     /* Bottom Nav (single pill) */
@@ -400,6 +423,12 @@
       }
     }
 
+    /* Purple card styling for the hadith if needed */
+    .hadith-card {
+      background-color: var(--card-bg) !important;
+      color: var(--text-color) !important;
+    }
+
     /* Responsive Adjustments */
     @media (max-width: 600px) {
       .prayer-cards {
@@ -445,19 +474,24 @@
             <i class="fas fa-chevron-right"></i>
           </button>
         </div>
-        <div class="ramadan-counter" id="ramadan-counter">
-          <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
-            <path d="M12 2.25A9.75 9.75 0 1021.75 12 A9.76 9.76 0 0012 2.25zm0 17.25A7.5 7.5 0 1119.5 12 A7.5 7.5 0 0112 19.5z" fill-opacity="0.3"/>
-            <path d="M12 22.5A10.5 10.5 0 0112 1.5a10.49 10.49 0 018 3.73 9.75 9.75 0 00-8 15.52A10.37 10.37 0 0112 22.5z"/>
-          </svg>
-          Ramadan: Day 1
-        </div>
-      </div>
 
-      <!-- Moved hadith above the prayer cards -->
-      <div class="hadith-footer">
-        The best charity is that given in Ramadan.<br>
-        Sunan Tirmidhi, Hadith: 663
+        <!-- Ramadan & Iftar counters side by side -->
+        <div class="ramadan-iftar-container">
+          <!-- Iftar/Suhoor Counter (hidden on non-current days) -->
+          <div class="iftar-counter" id="iftar-counter">
+            <i class="fas fa-utensils" aria-hidden="true"></i>
+            <span id="iftar-countdown-text">Loading Iftar...</span>
+          </div>
+
+          <!-- Ramadan Day -->
+          <div class="ramadan-counter" id="ramadan-counter">
+            <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
+              <path d="M12 2.25A9.75 9.75 0 1021.75 12 A9.76 9.76 0 0012 2.25zm0 17.25A7.5 7.5 0 1119.5 12 A7.5 7.5 0 0112 19.5z" fill-opacity="0.3"/>
+              <path d="M12 22.5A10.5 10.5 0 0112 1.5a10.49 10.49 0 018 3.73 9.75 9.75 0 00-8 15.52A10.37 10.37 0 0112 22.5z"/>
+            </svg>
+            Ramadan: Day 1
+          </div>
+        </div>
       </div>
 
       <!-- Prayer Cards -->
@@ -466,9 +500,13 @@
 
     <!-- Community Section -->
     <section id="community-section">
-      <div class="date-section">
-        <div class="date-display">
-          <span id="community-date">Saturday, March 1, 2025</span>
+      <div class="community-fade">
+        <div class="community-card hadith-card">
+          <div class="announcement-badge">Reminder of the day</div>
+          <p class="announcement-text" style="margin-top: 6px;">
+            The best charity is that given in Ramadan.<br>
+            Sunan Tirmidhi, Hadith: 663
+          </p>
         </div>
       </div>
 
@@ -478,8 +516,12 @@
           <div class="announcement-date">Feb 28, 2025</div>
           <p class="announcement-text">
             Ramadan Mubarak!<br>
-            The moon has been sighted, and Taraweeh prayers will begin tonight at 8 PM. As usual, the men's prayer area will be in the main building, while the women's prayer area will be in the rear building. Ladies' WC facilities are accessible via the side entrance of the main building. <br><br>
-            A friendly reminder: No food is allowed during Taraweeh prayers. To be respectful of our neighbours, please avoid loitering outside the masjid when leaving.
+            The moon has been sighted, and Taraweeh prayers will begin tonight at 8 PM. As usual, 
+            the men's prayer area will be in the main building, while the women's prayer area 
+            will be in the rear building. Ladies' WC facilities are accessible via the side 
+            entrance of the main building. <br><br>
+            A friendly reminder: No food is allowed during Taraweeh prayers. To be respectful 
+            of our neighbours, please avoid loitering outside the masjid when leaving.
           </p>
         </div>
       </div>
@@ -496,19 +538,13 @@
 
     <!-- About Section -->
     <section id="about-section">
-      <div class="date-section">
-        <div class="date-display">
-          <span id="about-date">Saturday, March 1, 2025</span>
-        </div>
-      </div>
-
       <div class="community-fade">
         <div class="community-card">
-          <h2 style="margin-bottom: 8px;">About</h2>
-          <p>
-            This is a community project built for personal use. It is not formally 
-            affiliated with or approved by the masjid committee. <br><br> If you find it 
-            useful, great! If you have any issues, please contact us.
+          <div class="announcement-badge">Disclaimer</div>
+          <p style="margin-top: 6px;">
+            This is a community project <strong>website</strong> built for personal use. It is 
+            not formally affiliated with or approved by the masjid committee. <br><br>
+            If you find it useful, great! If you have any issues, please contact us.
           </p>
         </div>
       </div>
@@ -641,7 +677,7 @@
       }
     ];
 
-    // Helpers
+    // -------- UTILITIES --------
     function getTodayString() {
       const d = new Date();
       const dd = String(d.getDate()).padStart(2, "0");
@@ -649,6 +685,7 @@
       const yy = String(d.getFullYear()).slice(-2);
       return `${dd}/${mm}/${yy}`;
     }
+
     function timeToMinutes(timeStr) {
       if (!timeStr || timeStr === "--") return null;
       const [time, meridian] = timeStr.split(" ");
@@ -657,6 +694,7 @@
       if (meridian === "AM" && hh === 12) hh = 0;
       return hh * 60 + mm;
     }
+
     function formatDisplayDate(dateStr) {
       const [dd, mm, yy] = dateStr.split("/");
       const fullYear = 2000 + parseInt(yy);
@@ -664,14 +702,28 @@
       return dateObj.toLocaleDateString('en-US', dateOptions);
     }
 
-    // Find today's date index
-    let currentPrayerIndex = prayerData.findIndex(row => row.date === getTodayString());
-    if (currentPrayerIndex === -1) currentPrayerIndex = 0;
+    function parsePrayerTime(timeStr, dateObj = new Date()) {
+      // e.g. "5:47 PM"
+      if (!timeStr || timeStr === "--") return null;
+      const [time, meridian] = timeStr.split(" ");
+      let [hh, mm] = time.split(":").map(Number);
+      if (meridian === "PM" && hh < 12) hh += 12;
+      if (meridian === "AM" && hh === 12) hh = 0;
+      return new Date(
+        dateObj.getFullYear(),
+        dateObj.getMonth(),
+        dateObj.getDate(),
+        hh,
+        mm,
+        0
+      );
+    }
 
-    // Render
+    // -------- RENDER TIMETABLE --------
     function renderPrayers(selectedRow) {
       const cardsContainer = document.getElementById("prayer-cards");
       cardsContainer.innerHTML = "";
+
       const isToday = (selectedRow.date === getTodayString());
       let prayers = [];
 
@@ -685,7 +737,6 @@
           { name: "Isha | Taraweeh", startTime: selectedRow.isha, jamatTime: selectedRow.ishaJamaat, iconClass: "wi-night-clear" }
         ];
       } else {
-        // fallback
         prayers = [
           { name: "Fajr", startTime: "--", jamatTime: "--", iconClass: "wi-horizon" },
           { name: "Sunrise", startTime: "--", jamatTime: null, iconClass: "wi-sunrise" },
@@ -696,7 +747,7 @@
         ];
       }
 
-      // Mark current/next if it's today
+      // Highlight current & next prayer if it's "today"
       if (isToday) {
         const now = new Date();
         const nowMins = now.getHours() * 60 + now.getMinutes();
@@ -712,6 +763,7 @@
         }
         let nextIndex = currentIndex + 1;
         if (currentIndex === -1) {
+          // No prayer has started yet
           nextIndex = prayerMinutes.findIndex(m => m !== null);
         }
         if (nextIndex >= 0 && nextIndex < prayers.length) {
@@ -732,11 +784,6 @@
         card.innerHTML = `
           <i class="prayer-icon ${p.iconClass}" aria-hidden="true"></i>
           <div class="prayer-name">${p.name}</div>
-          ${
-            p.label
-              ? `<div class="prayer-label">${p.label}</div>`
-              : ""
-          }
           <div class="prayer-time">${p.startTime || ""}</div>
           ${
             p.jamatTime
@@ -749,20 +796,22 @@
         `;
         cardsContainer.appendChild(card);
 
-        // fade-in
+        // Staggered fade-in
         setTimeout(() => {
           card.classList.add("fade-in");
         }, idx * 100);
       });
     }
 
+    // -------- RAMADAN DAY COUNTER --------
     function updateRamadanCounter(selectedRow) {
       const ramadanCounter = document.getElementById('ramadan-counter');
       if (!selectedRow) {
         ramadanCounter.textContent = 'Ramadan has ended';
         return;
       }
-      const ramadanStart = new Date(2025, 2, 1);
+      // For demo: Ramadan start is 1st March 2025
+      const ramadanStart = new Date(2025, 2, 1); // 0-based => 2 = March
       const [dd, mm, yy] = selectedRow.date.split("/");
       const fullYear = 2000 + parseInt(yy);
       const month = parseInt(mm) - 1;
@@ -771,6 +820,7 @@
       const diffTime = selectedDateObj - ramadanStart;
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
       const ramadanDay = diffDays + 1;
+
       if (ramadanDay < 1) {
         ramadanCounter.textContent = 'Ramadan has not started yet';
       } else if (ramadanDay > 30) {
@@ -780,13 +830,157 @@
       }
     }
 
+    // ------------------------------------------------
+    // Revised Iftar & Suhoor Countdown
+    // ------------------------------------------------
+    let ramadanInterval = null;
+
+    function startRamadanCountdowns(selectedRow) {
+      if (ramadanInterval) clearInterval(ramadanInterval);
+
+      const iftarEl = document.getElementById('iftar-countdown-text');
+      iftarEl.textContent = "Loading...";
+
+      // Identify "today" and "tomorrow" row
+      const todayIndex = prayerData.findIndex(row => row.date === selectedRow.date);
+      const tomorrowIndex = todayIndex + 1;
+
+      let tomorrowRow = null;
+      if (tomorrowIndex < prayerData.length) {
+        tomorrowRow = prayerData[tomorrowIndex];
+      }
+
+      // parse today's Fajr & Maghrib
+      const [dd, mm, yy] = selectedRow.date.split("/");
+      const fullYear = 2000 + parseInt(yy);
+      const dateObjToday = new Date(fullYear, parseInt(mm) - 1, parseInt(dd));
+      const fajrTime = parsePrayerTime(selectedRow.fajr, dateObjToday);
+      const maghribTime = parsePrayerTime(selectedRow.maghrib, dateObjToday);
+
+      // next day Fajr
+      let tomorrowFajr = null;
+      if (tomorrowRow) {
+        const [dd2, mm2, yy2] = tomorrowRow.date.split("/");
+        const fullYear2 = 2000 + parseInt(yy2);
+        const dateObjTomorrow = new Date(fullYear2, parseInt(mm2) - 1, parseInt(dd2));
+        tomorrowFajr = parsePrayerTime(tomorrowRow.fajr, dateObjTomorrow);
+      }
+
+      // For the "Time to stop eating" message
+      let fajrPlus5 = null;
+      if (fajrTime) {
+        fajrPlus5 = new Date(fajrTime.getTime() + 5 * 60000);
+      }
+
+      function updateRamadanMessage() {
+        const now = new Date();
+
+        // 1) If now < Fajr => show Suhoor countdown
+        if (fajrTime && now < fajrTime) {
+          const diff = fajrTime - now;
+          iftarEl.textContent = formatCountdown(diff, "until Suhoor ends");
+          return;
+        }
+
+        // 2) If we’re between Fajr and Fajr+5 => "Time to stop eating!"
+        if (fajrTime && fajrPlus5 && now >= fajrTime && now < fajrPlus5) {
+          iftarEl.textContent = "Time to stop eating or drinking!";
+          return;
+        }
+
+        // 3) If after Fajr+5 but before Maghrib => show Iftar countdown
+        if (maghribTime && now >= fajrPlus5 && now < maghribTime) {
+          const diff = maghribTime - now;
+          iftarEl.textContent = formatCountdown(diff, "until Iftar");
+          return;
+        }
+
+        // 4) If we’re between Maghrib and Maghrib+30 => "Iftar has started!"
+        const maghribPlus30 = maghribTime ? new Date(maghribTime.getTime() + 30 * 60000) : null;
+        if (maghribTime && maghribPlus30 && now >= maghribTime && now < maghribPlus30) {
+          iftarEl.textContent = "Iftar has started!";
+          return;
+        }
+
+        // 5) If after Maghrib+30 => blank (until next day)
+        if (maghribPlus30 && now >= maghribPlus30 && now < midnightOfNextDay(dateObjToday)) {
+          iftarEl.textContent = "";
+          return;
+        }
+
+        // 6) If it’s now the next day (past midnight of today), we might check tomorrowFajr
+        //    But the script automatically picks the new "today" from getTodayString().
+        //    If the user hasn't reloaded or is still on the old day, we can do a fallback:
+        if (tomorrowFajr && now >= midnightOfNextDay(dateObjToday) && now < tomorrowFajr) {
+          // Suhoor for the next day
+          const diff = tomorrowFajr - now;
+          iftarEl.textContent = formatCountdown(diff, "until Suhoor ends (next day)");
+          return;
+        }
+
+        // 7) Otherwise, fallback blank
+        iftarEl.textContent = "";
+      }
+
+      function midnightOfNextDay(baseDate) {
+        // e.g. if baseDate is 02/03/25, next day midnight => 03/03/2025 00:00
+        const next = new Date(baseDate.getTime());
+        next.setDate(next.getDate() + 1);
+        next.setHours(0, 0, 0, 0);
+        return next;
+      }
+
+      // Utility to show "Xh Xm" until event
+      function formatCountdown(ms, suffix) {
+        let secs = Math.floor(ms / 1000);
+        let mins = Math.floor(secs / 60);
+        let hrs = Math.floor(mins / 60);
+        secs %= 60;
+        mins %= 60;
+
+        if (hrs > 0) {
+          return `${hrs}h ${mins}m ${suffix}`;
+        } else if (mins > 0) {
+          return `${mins}m ${suffix}`;
+        } else {
+          return `${secs}s ${suffix}`;
+        }
+      }
+
+      updateRamadanMessage();
+      ramadanInterval = setInterval(updateRamadanMessage, 1000);
+    }
+
+    // -------- MAIN UPDATE & INIT --------
+    let currentPrayerIndex = prayerData.findIndex(row => row.date === getTodayString());
+    if (currentPrayerIndex === -1) currentPrayerIndex = 0;
+
     function updateDisplay(index) {
       const selectedRow = prayerData[index];
+
+      // Update the top date label (Timetable only)
       document.getElementById('current-date').textContent = formatDisplayDate(selectedRow.date);
-      document.getElementById('community-date').textContent = formatDisplayDate(selectedRow.date);
-      document.getElementById('about-date').textContent = formatDisplayDate(selectedRow.date);
+
+      // Render the prayer cards
       renderPrayers(selectedRow);
+
+      // Ramadan Day
       updateRamadanCounter(selectedRow);
+
+      // Show/hide the entire Iftar container depending on whether it's today's date
+      const iftarContainer = document.getElementById('iftar-counter');
+      const iftarEl = document.getElementById('iftar-countdown-text');
+
+      if (selectedRow.date === getTodayString()) {
+        iftarContainer.style.display = "inline-flex"; // show the purple bar
+        startRamadanCountdowns(selectedRow);
+      } else {
+        iftarContainer.style.display = "none";
+        // Clear any intervals
+        if (ramadanInterval) clearInterval(ramadanInterval);
+        // Clear leftover text
+        iftarEl.textContent = "";
+      }
     }
 
     // Initialize
@@ -806,7 +1000,7 @@
       }
     });
 
-    // Sections
+    // Tab sections
     const timetableSection = document.getElementById("timetable-section");
     const communitySection = document.getElementById("community-section");
     const aboutSection = document.getElementById("about-section");
@@ -816,7 +1010,6 @@
     const navCommunity = document.getElementById("nav-community");
     const navAbout = document.getElementById("nav-about");
 
-    // Show the selected tab
     function showTab(tab) {
       [navTimetable, navCommunity, navAbout].forEach(btn => {
         btn.classList.remove("active", "animate-pop");
@@ -843,7 +1036,6 @@
             item.classList.add("fade-in");
           }, idx * 100);
         });
-
       } else if (tab === "about") {
         timetableSection.style.display = "none";
         communitySection.style.display = "none";
@@ -863,10 +1055,10 @@
       }
     }
 
-    // Default to Timetable
+    // Default tab
     showTab("timetable");
 
-    // Click listeners
+    // Nav click
     navTimetable.addEventListener("click", () => showTab("timetable"));
     navCommunity.addEventListener("click", () => showTab("community"));
     navAbout.addEventListener("click", () => showTab("about"));
