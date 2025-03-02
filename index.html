@@ -115,6 +115,13 @@
       margin: 0 auto;
       padding: 12px 20px 20px;
       flex: 1;
+      /* 1) Universal bottom padding so last card stays above nav */
+      padding-bottom: 80px;
+    }
+
+    /* 2) If Galaxy Z Fold is detected, add extra bottom padding */
+    .z-fold-fix .container {
+      padding-bottom: 80px; /* Adjust as needed for more scroll space */
     }
 
     /* Header */
@@ -204,16 +211,6 @@
     }
 
     /* Sections (Timetable / Community / About) */
-    #timetable-section {
-      /* Timetable is normal */
-    }
-    #community-section {
-      margin-top: 20px; /* extra gap at the top of Community */
-    }
-    #about-section {
-      margin-top: 20px; /* extra gap at the top of About */
-    }
-
     #timetable-section,
     #community-section,
     #about-section {
@@ -223,7 +220,7 @@
     /* Prayer Cards Grid */
     .prayer-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       gap: 16px;
       margin-bottom: 15px;
     }
@@ -295,19 +292,19 @@
       text-align: center;
     }
     .jamat-label {
-      font-size: 13px;
-      color: var(--secondary-text);
+      font-size: var(--label-font-size);
+      color: #000; /* solid black text for better visibility */
       margin-top: -2px;
       margin-bottom: 2px;
       text-align: center;
-      font-weight: 500;
+      font-weight: 700; /* make it bold */
     }
     .prayer-time-secondary {
-      font-size: 15px;
+      font-size: var(--time-font-size);
+      font-weight: 700;
+      margin-bottom: 4px;
       color: var(--primary-color);
-      margin-top: 2px;
       text-align: center;
-      font-weight: 600;
     }
 
     /* Community & About Section fade classes */
@@ -429,18 +426,36 @@
       color: var(--text-color) !important;
     }
 
+    /* 3) Smaller nav bar for Z Fold 3/4/5 specifically */
+    .z-fold-345-nav-fix .bottom-nav {
+      padding: 4px;          /* less overall padding for the nav bar */
+      border-radius: 9999px; /* keep the pill shape */
+    }
+    .z-fold-345-nav-fix .nav-item {
+      padding: 8px 10px;     /* smaller horizontal/vertical padding */
+      font-size: 12px;       /* slightly smaller text */
+      margin: 0 2px;         /* reduce margin between nav items */
+    }
+    .z-fold-345-nav-fix .nav-item i {
+      font-size: 16px;       /* smaller icon */
+      margin-right: 6px;     /* tweak spacing */
+    }
+
     /* Responsive Adjustments */
     @media (max-width: 600px) {
       .prayer-cards {
         grid-template-columns: 1fr 1fr;
       }
       .prayer-card {
-        padding: 16px;
+        padding: 14px;
       }
       .prayer-name {
         font-size: 16px;
       }
       .prayer-time {
+        font-size: 22px;
+      }
+      .prayer-time-secondary {
         font-size: 22px;
       }
     }
@@ -455,6 +470,24 @@
   </style>
 </head>
 <body>
+  <!-- Detect Galaxy Z Fold and also specific models 3, 4, 5 -->
+  <script>
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+    // Existing detection for "Galaxy Z Fold" or SM-F9
+    if (/SM-F9/i.test(userAgent) || /Galaxy Z Fold/i.test(userAgent)) {
+      document.body.classList.add("z-fold-fix");
+    }
+
+    // Additional detection for Z Fold 3/4/5 model patterns
+    // Z Fold 3 => SM-F711 or SM-F926
+    // Z Fold 4 => SM-F936
+    // Z Fold 5 => SM-F946
+    if (/SM-F711|SM-F926|SM-F936|SM-F946/i.test(userAgent)) {
+      document.body.classList.add("z-fold-345-nav-fix");
+    }
+  </script>
+
   <div class="container">
     <!-- Header -->
     <header>
@@ -573,9 +606,52 @@
   </div>
 
   <script>
-    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    // Detect today's date in dd/mm/yy
+    function getTodayString() {
+      const d = new Date();
+      const dd = String(d.getDate()).padStart(2, "0");
+      const mm = String(d.getMonth() + 1).padStart(2, "0");
+      const yy = String(d.getFullYear()).slice(-2);
+      return `${dd}/${mm}/${yy}`;
+    }
 
-    // Prayer Data Array (dates in dd/mm/yy format)
+    // Convert "5:47 PM" -> total minutes from midnight
+    function timeToMinutes(timeStr) {
+      if (!timeStr || timeStr === "--") return null;
+      const [time, meridian] = timeStr.split(" ");
+      let [hh, mm] = time.split(":").map(Number);
+      if (meridian === "PM" && hh < 12) hh += 12;
+      if (meridian === "AM" && hh === 12) hh = 0;
+      return hh * 60 + mm;
+    }
+
+    // For display date
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    function formatDisplayDate(dateStr) {
+      const [dd, mm, yy] = dateStr.split("/");
+      const fullYear = 2000 + parseInt(yy);
+      const dateObj = new Date(fullYear, parseInt(mm) - 1, parseInt(dd));
+      return dateObj.toLocaleDateString('en-US', dateOptions);
+    }
+
+    // Parse prayer time into Date object for suhoor/iftar logic
+    function parsePrayerTime(timeStr, dateObj = new Date()) {
+      if (!timeStr || timeStr === "--") return null;
+      const [time, meridian] = timeStr.split(" ");
+      let [hh, mm] = time.split(":").map(Number);
+      if (meridian === "PM" && hh < 12) hh += 12;
+      if (meridian === "AM" && hh === 12) hh = 0;
+      return new Date(
+        dateObj.getFullYear(),
+        dateObj.getMonth(),
+        dateObj.getDate(),
+        hh,
+        mm,
+        0
+      );
+    }
+
+    // Data
     const prayerData = [
       {
         date: "01/03/25",
@@ -677,49 +753,7 @@
       }
     ];
 
-    // -------- UTILITIES --------
-    function getTodayString() {
-      const d = new Date();
-      const dd = String(d.getDate()).padStart(2, "0");
-      const mm = String(d.getMonth() + 1).padStart(2, "0");
-      const yy = String(d.getFullYear()).slice(-2);
-      return `${dd}/${mm}/${yy}`;
-    }
-
-    function timeToMinutes(timeStr) {
-      if (!timeStr || timeStr === "--") return null;
-      const [time, meridian] = timeStr.split(" ");
-      let [hh, mm] = time.split(":").map(Number);
-      if (meridian === "PM" && hh < 12) hh += 12;
-      if (meridian === "AM" && hh === 12) hh = 0;
-      return hh * 60 + mm;
-    }
-
-    function formatDisplayDate(dateStr) {
-      const [dd, mm, yy] = dateStr.split("/");
-      const fullYear = 2000 + parseInt(yy);
-      const dateObj = new Date(fullYear, parseInt(mm) - 1, parseInt(dd));
-      return dateObj.toLocaleDateString('en-US', dateOptions);
-    }
-
-    function parsePrayerTime(timeStr, dateObj = new Date()) {
-      // e.g. "5:47 PM"
-      if (!timeStr || timeStr === "--") return null;
-      const [time, meridian] = timeStr.split(" ");
-      let [hh, mm] = time.split(":").map(Number);
-      if (meridian === "PM" && hh < 12) hh += 12;
-      if (meridian === "AM" && hh === 12) hh = 0;
-      return new Date(
-        dateObj.getFullYear(),
-        dateObj.getMonth(),
-        dateObj.getDate(),
-        hh,
-        mm,
-        0
-      );
-    }
-
-    // -------- RENDER TIMETABLE --------
+    // Render the prayer cards
     function renderPrayers(selectedRow) {
       const cardsContainer = document.getElementById("prayer-cards");
       cardsContainer.innerHTML = "";
@@ -733,7 +767,8 @@
           { name: "Sunrise", startTime: selectedRow.sunrise, jamatTime: null, iconClass: "wi-sunrise" },
           { name: "Dhuhr", startTime: selectedRow.dhuhr, jamatTime: selectedRow.dhuhrJamaat, iconClass: "wi-day-sunny" },
           { name: "Asr", startTime: selectedRow.asr, jamatTime: selectedRow.asrJamaat, iconClass: "wi-day-sunny-overcast" },
-          { name: "Maghrib", startTime: selectedRow.maghrib, jamatTime: selectedRow.maghribJamaat, iconClass: "wi-sunset" },
+          // Add "| Iftar" next to Maghrib
+          { name: "Maghrib | Iftar", startTime: selectedRow.maghrib, jamatTime: selectedRow.maghribJamaat, iconClass: "wi-sunset" },
           { name: "Isha | Taraweeh", startTime: selectedRow.isha, jamatTime: selectedRow.ishaJamaat, iconClass: "wi-night-clear" }
         ];
       } else {
@@ -742,7 +777,7 @@
           { name: "Sunrise", startTime: "--", jamatTime: null, iconClass: "wi-sunrise" },
           { name: "Dhuhr", startTime: "--", jamatTime: "--", iconClass: "wi-day-sunny" },
           { name: "Asr", startTime: "--", jamatTime: "--", iconClass: "wi-day-sunny-overcast" },
-          { name: "Maghrib", startTime: "--", jamatTime: "--", iconClass: "wi-sunset" },
+          { name: "Maghrib | Iftar", startTime: "--", jamatTime: "--", iconClass: "wi-sunset" },
           { name: "Isha | Taraweeh", startTime: "--", jamatTime: "--", iconClass: "wi-night-clear" }
         ];
       }
@@ -752,19 +787,35 @@
         const now = new Date();
         const nowMins = now.getHours() * 60 + now.getMinutes();
         const prayerMinutes = prayers.map(p => timeToMinutes(p.startTime));
+
         let currentIndex = -1;
         for (let i = 0; i < prayerMinutes.length; i++) {
           if (prayerMinutes[i] !== null && prayerMinutes[i] <= nowMins) {
             currentIndex = i;
           }
         }
+
+        // Special sunrise rule: "Now" for only 30 min
         if (currentIndex >= 0) {
-          prayers[currentIndex].isCurrent = true;
+          if (prayers[currentIndex].name.includes("Sunrise")) {
+            const sunriseMins = prayerMinutes[currentIndex];
+            // If current time is within 30 min of sunrise, mark Sunrise as "Now"
+            if ((nowMins - sunriseMins) <= 30) {
+              prayers[currentIndex].isCurrent = true;
+            } else {
+              // It's more than 30 min after sunrise, so effectively no "current prayer"
+              currentIndex = -1;
+            }
+          } else {
+            prayers[currentIndex].isCurrent = true;
+          }
         }
+
+        // Next prayer logic
         let nextIndex = currentIndex + 1;
         if (currentIndex === -1) {
           // No prayer has started yet
-          nextIndex = prayerMinutes.findIndex(m => m !== null);
+          nextIndex = prayerMinutes.findIndex(m => m !== null && m >= nowMins);
         }
         if (nextIndex >= 0 && nextIndex < prayers.length) {
           prayers[nextIndex].isNext = true;
@@ -803,7 +854,7 @@
       });
     }
 
-    // -------- RAMADAN DAY COUNTER --------
+    // Ramadan Day counter
     function updateRamadanCounter(selectedRow) {
       const ramadanCounter = document.getElementById('ramadan-counter');
       if (!selectedRow) {
@@ -811,7 +862,7 @@
         return;
       }
       // For demo: Ramadan start is 1st March 2025
-      const ramadanStart = new Date(2025, 2, 1); // 0-based => 2 = March
+      const ramadanStart = new Date(2025, 2, 1); // March 1, 2025 (0-based month)
       const [dd, mm, yy] = selectedRow.date.split("/");
       const fullYear = 2000 + parseInt(yy);
       const month = parseInt(mm) - 1;
@@ -830,9 +881,7 @@
       }
     }
 
-    // ------------------------------------------------
-    // Revised Iftar & Suhoor Countdown
-    // ------------------------------------------------
+    // Iftar / Suhoor countdown
     let ramadanInterval = null;
 
     function startRamadanCountdowns(selectedRow) {
@@ -841,10 +890,9 @@
       const iftarEl = document.getElementById('iftar-countdown-text');
       iftarEl.textContent = "Loading...";
 
-      // Identify "today" and "tomorrow" row
+      // Identify today's and tomorrow's row
       const todayIndex = prayerData.findIndex(row => row.date === selectedRow.date);
       const tomorrowIndex = todayIndex + 1;
-
       let tomorrowRow = null;
       if (tomorrowIndex < prayerData.length) {
         tomorrowRow = prayerData[tomorrowIndex];
@@ -866,7 +914,7 @@
         tomorrowFajr = parsePrayerTime(tomorrowRow.fajr, dateObjTomorrow);
       }
 
-      // For the "Time to stop eating" message
+      // Fajr + 5 minutes => stop eating window
       let fajrPlus5 = null;
       if (fajrTime) {
         fajrPlus5 = new Date(fajrTime.getTime() + 5 * 60000);
@@ -875,7 +923,7 @@
       function updateRamadanMessage() {
         const now = new Date();
 
-        // 1) If now < Fajr => show Suhoor countdown
+        // 1) If now < Fajr => Suhoor countdown
         if (fajrTime && now < fajrTime) {
           const diff = fajrTime - now;
           iftarEl.textContent = formatCountdown(diff, "until Suhoor ends");
@@ -888,7 +936,7 @@
           return;
         }
 
-        // 3) If after Fajr+5 but before Maghrib => show Iftar countdown
+        // 3) If after Fajr+5 but before Maghrib => Iftar countdown
         if (maghribTime && now >= fajrPlus5 && now < maghribTime) {
           const diff = maghribTime - now;
           iftarEl.textContent = formatCountdown(diff, "until Iftar");
@@ -908,29 +956,24 @@
           return;
         }
 
-        // 6) If it’s now the next day (past midnight of today), we might check tomorrowFajr
-        //    But the script automatically picks the new "today" from getTodayString().
-        //    If the user hasn't reloaded or is still on the old day, we can do a fallback:
+        // 6) If it's now the next day but user hasn't changed date...
         if (tomorrowFajr && now >= midnightOfNextDay(dateObjToday) && now < tomorrowFajr) {
-          // Suhoor for the next day
           const diff = tomorrowFajr - now;
           iftarEl.textContent = formatCountdown(diff, "until Suhoor ends (next day)");
           return;
         }
 
-        // 7) Otherwise, fallback blank
+        // 7) Otherwise, blank
         iftarEl.textContent = "";
       }
 
       function midnightOfNextDay(baseDate) {
-        // e.g. if baseDate is 02/03/25, next day midnight => 03/03/2025 00:00
         const next = new Date(baseDate.getTime());
         next.setDate(next.getDate() + 1);
         next.setHours(0, 0, 0, 0);
         return next;
       }
 
-      // Utility to show "Xh Xm" until event
       function formatCountdown(ms, suffix) {
         let secs = Math.floor(ms / 1000);
         let mins = Math.floor(secs / 60);
@@ -951,34 +994,28 @@
       ramadanInterval = setInterval(updateRamadanMessage, 1000);
     }
 
-    // -------- MAIN UPDATE & INIT --------
+    // Update display
     let currentPrayerIndex = prayerData.findIndex(row => row.date === getTodayString());
     if (currentPrayerIndex === -1) currentPrayerIndex = 0;
 
     function updateDisplay(index) {
       const selectedRow = prayerData[index];
-
-      // Update the top date label (Timetable only)
+      // Update date label
       document.getElementById('current-date').textContent = formatDisplayDate(selectedRow.date);
-
-      // Render the prayer cards
+      // Render prayers
       renderPrayers(selectedRow);
-
-      // Ramadan Day
+      // Ramadan day
       updateRamadanCounter(selectedRow);
 
-      // Show/hide the entire Iftar container depending on whether it's today's date
+      // Show/hide iftar container if it's "today"
       const iftarContainer = document.getElementById('iftar-counter');
       const iftarEl = document.getElementById('iftar-countdown-text');
-
       if (selectedRow.date === getTodayString()) {
-        iftarContainer.style.display = "inline-flex"; // show the purple bar
+        iftarContainer.style.display = "inline-flex";
         startRamadanCountdowns(selectedRow);
       } else {
         iftarContainer.style.display = "none";
-        // Clear any intervals
         if (ramadanInterval) clearInterval(ramadanInterval);
-        // Clear leftover text
         iftarEl.textContent = "";
       }
     }
@@ -986,7 +1023,7 @@
     // Initialize
     updateDisplay(currentPrayerIndex);
 
-    // Date nav
+    // Prev/Next date
     document.getElementById('prev-date').addEventListener('click', () => {
       if (currentPrayerIndex > 0) {
         currentPrayerIndex--;
