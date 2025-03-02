@@ -119,12 +119,12 @@
       padding: 12px 20px 20px;
       flex: 1;
       /* 1) Universal bottom padding so last card stays above nav */
-      padding-bottom: 100px;
+      padding-bottom: 80px;
     }
 
     /* 2) If Galaxy Z Fold is detected, add extra bottom padding */
     .z-fold-fix .container {
-      padding-bottom: 100px; /* Adjust as needed for more scroll space */
+      padding-bottom: 80px; /* Adjust as needed for more scroll space */
     }
 
     /* Header */
@@ -295,10 +295,12 @@
       text-align: center;
     }
     .jamat-label {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 6px;
+      font-size: var(--label-font-size);
+      color: #000; /* solid black text for better visibility */
+      margin-top: -2px;
+      margin-bottom: 2px;
       text-align: center;
+      font-weight: 700; /* make it bold */
     }
     .prayer-time-secondary {
       font-size: var(--time-font-size);
@@ -931,7 +933,7 @@
           return;
         }
 
-        // 2) If we’re between Fajr and Fajr+5 => "Time to stop eating or drinking!"
+        // 2) If we’re between Fajr and Fajr+5 => "Time to stop eating!"
         if (fajrTime && fajrPlus5 && now >= fajrTime && now < fajrPlus5) {
           iftarEl.textContent = "Time to stop eating or drinking!";
           return;
