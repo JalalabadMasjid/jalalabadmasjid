@@ -18,6 +18,9 @@
     href="https://raw.githubusercontent.com/JalalabadMasjid/jalalabadmasjid/refs/heads/main/images/jalalabad_masjid_web_app_logo.png"
   />
 
+  <!-- (NEW) Web App Manifest for Android -->
+  <link rel="manifest" href="manifest.json" />
+
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="Jalalabad Mosque" />
   <meta property="og:description" content="Prayer Timetable & Community Updates" />
@@ -930,7 +933,7 @@
           return;
         }
 
-        // 2) If we’re between Fajr and Fajr+5 => "Time to stop eating!"
+        // 2) If we’re between Fajr and Fajr+5 => "Time to stop eating or drinking!"
         if (fajrTime && fajrPlus5 && now >= fajrTime && now < fajrPlus5) {
           iftarEl.textContent = "Time to stop eating or drinking!";
           return;
