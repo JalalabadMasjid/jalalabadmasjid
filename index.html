@@ -18,7 +18,7 @@
     href="https://raw.githubusercontent.com/JalalabadMasjid/jalalabadmasjid/refs/heads/main/images/jalalabad_masjid_web_app_logo.png"
   />
 
-  <!-- (NEW) Web App Manifest for Android -->
+  <!-- Web App Manifest for Android -->
   <link rel="manifest" href="manifest.json" />
 
   <!-- Open Graph Meta Tags -->
@@ -134,7 +134,7 @@
 
     /* 2) If Galaxy Z Fold is detected, add extra bottom padding */
     .z-fold-fix .container {
-      padding-bottom: 80px; /* Adjust as needed for more scroll space */
+      padding-bottom: 80px;
     }
 
     /* Header */
@@ -197,7 +197,6 @@
       margin-top: 8px;
       flex-wrap: wrap; /* so they stack on mobile if needed */
     }
-
     .ramadan-counter,
     .iftar-counter {
       background-color: var(--accent-color);
@@ -210,15 +209,11 @@
       align-items: center;
       min-height: 36px;
     }
-
-    /* Ramadan counter icon style */
     .ramadan-counter svg {
       margin-right: 6px;
       width: 16px;
       height: 16px;
     }
-
-    /* Iftar counter icon (Font Awesome utensils) */
     .iftar-counter i {
       margin-right: 6px;
     }
@@ -309,7 +304,7 @@
       margin-top: -2px;
       margin-bottom: 2px;
       text-align: center;
-      font-weight: 700; /* make it bold */
+      font-weight: 700; 
     }
     .prayer-time-secondary {
       font-size: var(--time-font-size);
@@ -390,7 +385,7 @@
       display: flex;
       align-items: center;
       background-color: var(--card-bg);
-      border-radius: 9999px; /* pill shape */
+      border-radius: 9999px;
       box-shadow: var(--shadow);
       padding: 8px;
       z-index: 999;
@@ -438,19 +433,19 @@
       color: var(--text-color) !important;
     }
 
-    /* 3) Smaller nav bar for Z Fold 3/4/5 specifically */
+    /* Smaller nav bar for Z Fold 3/4/5 specifically */
     .z-fold-345-nav-fix .bottom-nav {
-      padding: 4px;          /* less overall padding for the nav bar */
-      border-radius: 9999px; /* keep the pill shape */
+      padding: 4px;
+      border-radius: 9999px;
     }
     .z-fold-345-nav-fix .nav-item {
-      padding: 8px 10px;     /* smaller horizontal/vertical padding */
-      font-size: 12px;       /* slightly smaller text */
-      margin: 0 2px;         /* reduce margin between nav items */
+      padding: 8px 10px;
+      font-size: 12px;
+      margin: 0 2px;
     }
     .z-fold-345-nav-fix .nav-item i {
-      font-size: 16px;       /* smaller icon */
-      margin-right: 6px;     /* tweak spacing */
+      font-size: 16px;
+      margin-right: 6px;
     }
 
     /* Responsive Adjustments */
@@ -480,7 +475,7 @@
       }
     }
 
-    /* ---- NEW Jumuah Timings Section ---- */
+    /* Jumuah Timings Section */
     .jumuah-section {
       display: flex;
       justify-content: center;
@@ -489,7 +484,7 @@
       padding: 10px;
       border-radius: 8px;
       font-weight: 600;
-      color:rgb(0, 0, 0); /* You can change to any color or gradient */
+      color: rgb(0, 0, 0);
     }
     .jumuah-section span {
       font-size: 12px;
@@ -500,50 +495,36 @@
   <!-- Detect Galaxy Z Fold and also specific models 3, 4, 5 -->
   <script>
     const userAgent = navigator.userAgent || navigator.vendor || window.opera;
-
-    // Existing detection for "Galaxy Z Fold" or SM-F9
     if (/SM-F9/i.test(userAgent) || /Galaxy Z Fold/i.test(userAgent)) {
       document.body.classList.add("z-fold-fix");
     }
-
-    // Additional detection for Z Fold 3/4/5 model patterns
-    // Z Fold 3 => SM-F711 or SM-F926
-    // Z Fold 4 => SM-F936
-    // Z Fold 5 => SM-F946
     if (/SM-F711|SM-F926|SM-F936|SM-F946/i.test(userAgent)) {
       document.body.classList.add("z-fold-345-nav-fix");
     }
   </script>
 
   <div class="container">
-    <!-- Header -->
     <header>
       <h1>Jalalabad Mosque</h1>
     </header>
 
     <!-- Timetable Section -->
     <section id="timetable-section">
-      <!-- Date & Ramadan Info -->
       <div class="date-section">
         <div class="date-display">
           <button id="prev-date" class="date-nav-btn" aria-label="Previous Date">
             <i class="fas fa-chevron-left"></i>
           </button>
-          <span id="current-date">Saturday, March 1, 2025</span>
+          <span id="current-date">Loading date...</span>
           <button id="next-date" class="date-nav-btn" aria-label="Next Date">
             <i class="fas fa-chevron-right"></i>
           </button>
         </div>
-
-        <!-- Ramadan & Iftar counters side by side -->
         <div class="ramadan-iftar-container">
-          <!-- Iftar/Suhoor Counter (hidden on non-current days) -->
           <div class="iftar-counter" id="iftar-counter">
             <i class="fas fa-utensils" aria-hidden="true"></i>
             <span id="iftar-countdown-text">Loading Iftar...</span>
           </div>
-
-          <!-- Ramadan Day -->
           <div class="ramadan-counter" id="ramadan-counter">
             <svg viewBox="0 0 24 24" fill="white" aria-hidden="true">
               <path d="M12 2.25A9.75 9.75 0 1021.75 12 A9.76 9.76 0 0012 2.25zm0 17.25A7.5 7.5 0 1119.5 12 A7.5 7.5 0 0112 19.5z" fill-opacity="0.3"/>
@@ -553,11 +534,7 @@
           </div>
         </div>
       </div>
-
-      <!-- Prayer Cards -->
       <div class="prayer-cards" id="prayer-cards"></div>
-
-      <!-- NEW: Jumuah Timings Section (Horizontal) -->
       <div class="jumuah-section">
         <span>Friday Prayers: Khutbah 12:30pm, Jamaat 1:15pm</span>
       </div>
@@ -574,7 +551,6 @@
           </p>
         </div>
       </div>
-
       <div class="community-fade">
         <div class="community-card">
           <div class="announcement-badge">Masjid Announcement</div>
@@ -583,10 +559,7 @@
             Ramadan Mubarak!<br>
             The moon has been sighted, and Taraweeh prayers will begin tonight at 8 PM. As usual, 
             the men's prayer area will be in the main building, while the women's prayer area 
-            will be in the rear building. Ladies' WC facilities are accessible via the side 
-            entrance of the main building. <br><br>
-            A friendly reminder: No food is allowed during Taraweeh prayers. To be respectful 
-            of our neighbours, please avoid loitering outside the masjid when leaving.
+            will be in the rear building. Please note: no food is allowed during Taraweeh.
           </p>
         </div>
       </div>
@@ -607,9 +580,8 @@
         <div class="community-card">
           <div class="announcement-badge">Disclaimer</div>
           <p style="margin-top: 6px;">
-            This is a community project <strong>website</strong> built for personal use. It is 
-            not formally affiliated with or approved by the masjid committee. <br><br>
-            If you find it useful, great! If you have any issues, please contact us.
+            This is a community project <strong>website</strong> built for personal use. <br><br>
+            If you find it useful, great! If you have any issues, please contact via the Community section.
           </p>
         </div>
       </div>
@@ -618,19 +590,14 @@
 
   <!-- Bottom Nav -->
   <div class="bottom-nav">
-    <!-- Timetable: active by default -->
     <button class="nav-item active" id="nav-timetable">
       <i class="fa-solid fa-clock"></i>
       Timetable
     </button>
-
-    <!-- Community -->
     <button class="nav-item" id="nav-community">
       <i class="fa-solid fa-comments"></i>
       Community
     </button>
-
-    <!-- About -->
     <button class="nav-item" id="nav-about">
       <i class="fa-solid fa-circle-info"></i>
       About
@@ -638,7 +605,7 @@
   </div>
 
   <script>
-    // Detect today's date in dd/mm/yy
+    // Utility functions
     function getTodayString() {
       const d = new Date();
       const dd = String(d.getDate()).padStart(2, "0");
@@ -646,8 +613,6 @@
       const yy = String(d.getFullYear()).slice(-2);
       return `${dd}/${mm}/${yy}`;
     }
-
-    // Convert "5:47 PM" -> total minutes from midnight
     function timeToMinutes(timeStr) {
       if (!timeStr || timeStr === "--") return null;
       const [time, meridian] = timeStr.split(" ");
@@ -656,8 +621,6 @@
       if (meridian === "AM" && hh === 12) hh = 0;
       return hh * 60 + mm;
     }
-
-    // For display date
     const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     function formatDisplayDate(dateStr) {
       const [dd, mm, yy] = dateStr.split("/");
@@ -665,467 +628,43 @@
       const dateObj = new Date(fullYear, parseInt(mm) - 1, parseInt(dd));
       return dateObj.toLocaleDateString('en-US', dateOptions);
     }
-
-    // Parse prayer time into Date object for suhoor/iftar logic
     function parsePrayerTime(timeStr, dateObj = new Date()) {
       if (!timeStr || timeStr === "--") return null;
       const [time, meridian] = timeStr.split(" ");
       let [hh, mm] = time.split(":").map(Number);
       if (meridian === "PM" && hh < 12) hh += 12;
       if (meridian === "AM" && hh === 12) hh = 0;
-      return new Date(
-        dateObj.getFullYear(),
-        dateObj.getMonth(),
-        dateObj.getDate(),
-        hh,
-        mm,
-        0
-      );
+      return new Date(dateObj.getFullYear(), dateObj.getMonth(), dateObj.getDate(), hh, mm, 0);
     }
 
-    // Data
-    const prayerData = [
-      {
-        date: "01/03/25",
-        fajr: "5:13 AM",
-        fajrJamaat: "5:33 AM",
-        sunrise: "6:53 AM",
-        dhuhr: "12:24 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "3:54 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "5:47 PM",
-        maghribJamaat: "5:47 PM",
-        isha: "7:16 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "02/03/25",
-        fajr: "5:11 AM",
-        fajrJamaat: "5:31 AM",
-        sunrise: "6:51 AM",
-        dhuhr: "12:24 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "3:55 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "5:48 PM",
-        maghribJamaat: "5:48 PM",
-        isha: "7:17 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "03/03/25",
-        fajr: "5:09 AM",
-        fajrJamaat: "5:29 AM",
-        sunrise: "6:49 AM",
-        dhuhr: "12:24 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:00 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "5:50 PM",
-        maghribJamaat: "5:50 PM",
-        isha: "7:18 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "04/03/25",
-        fajr: "5:06 AM",
-        fajrJamaat: "5:26 AM",
-        sunrise: "6:46 AM",
-        dhuhr: "12:24 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:01 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "5:52 PM",
-        maghribJamaat: "5:52 PM",
-        isha: "7:20 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "05/03/25",
-        fajr: "5:04 AM",
-        fajrJamaat: "5:24 AM",
-        sunrise: "6:44 AM",
-        dhuhr: "12:23 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:03 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "5:54 PM",
-        maghribJamaat: "5:54 PM",
-        isha: "7:21 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "06/03/25",
-        fajr: "5:02 AM",
-        fajrJamaat: "5:22 AM",
-        sunrise: "6:42 AM",
-        dhuhr: "12:23 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:04 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "5:56 PM",
-        maghribJamaat: "5:56 PM",
-        isha: "7:23 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "07/03/25",
-        fajr: "5:00 AM",
-        fajrJamaat: "5:20 AM",
-        sunrise: "6:40 AM",
-        dhuhr: "12:23 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:06 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "5:57 PM",
-        maghribJamaat: "5:57 PM",
-        isha: "7:23 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "08/03/25",
-        fajr: "4:57 AM",
-        fajrJamaat: "5:17 AM",
-        sunrise: "6:37 AM",
-        dhuhr: "12:23 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:07 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "5:59 PM",
-        maghribJamaat: "5:59 PM",
-        isha: "7:25 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "09/03/25",
-        fajr: "4:55 AM",
-        fajrJamaat: "5:15 AM",
-        sunrise: "6:35 AM",
-        dhuhr: "12:23 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:09 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "6:01 PM",
-        maghribJamaat: "6:01 PM",
-        isha: "7:26 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "10/03/25",
-        fajr: "4:53 AM",
-        fajrJamaat: "5:13 AM",
-        sunrise: "6:33 AM",
-        dhuhr: "12:22 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:10 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "6:03 PM",
-        maghribJamaat: "6:03 PM",
-        isha: "7:28 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "11/03/25",
-        fajr: "4:50 AM",
-        fajrJamaat: "5:10 AM",
-        sunrise: "6:30 AM",
-        dhuhr: "12:22 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:11 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "6:05 PM",
-        maghribJamaat: "6:05 PM",
-        isha: "7:30 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "12/03/25",
-        fajr: "4:48 AM",
-        fajrJamaat: "5:08 AM",
-        sunrise: "6:28 AM",
-        dhuhr: "12:22 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:13 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "6:06 PM",
-        maghribJamaat: "6:06 PM",
-        isha: "7:31 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "13/03/25",
-        fajr: "4:46 AM",
-        fajrJamaat: "5:06 AM",
-        sunrise: "6:26 AM",
-        dhuhr: "12:21 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:14 PM",
-        asrJamaat: "4:30 PM",
-        maghrib: "6:08 PM",
-        maghribJamaat: "6:08 PM",
-        isha: "7:32 PM",
-        ishaJamaat: "8:00 PM"
-      },
-      {
-        date: "14/03/25",
-        fajr: "4:43 AM",
-        fajrJamaat: "5:03 AM",
-        sunrise: "6:23 AM",
-        dhuhr: "12:21 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:16 PM",
-        asrJamaat: "4:45 PM",
-        maghrib: "6:10 PM",
-        maghribJamaat: "6:10 PM",
-        isha: "7:34 PM",
-        ishaJamaat: "8:00 PM"
-      },
-    {
-        date: "15/03/25",
-        fajr: "4:41 AM",
-        fajrJamaat: "5:01 AM",
-        sunrise: "6:21 AM",
-        dhuhr: "12:21 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:17 PM",
-        asrJamaat: "4:45 PM",
-        maghrib: "6:12 PM",
-        maghribJamaat: "6:12 PM",
-        isha: "7:36 PM",
-        ishaJamaat: "8:00 PM"
-    },
-    {
-        date: "16/03/25",
-        fajr: "4:39 AM",
-        fajrJamaat: "4:59 AM",
-        sunrise: "6:19 AM",
-        dhuhr: "12:21 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:19 PM",
-        asrJamaat: "4:45 PM",
-        maghrib: "6:14 PM",
-        maghribJamaat: "6:14 PM",
-        isha: "7:38 PM",
-        ishaJamaat: "8:00 PM"
-    },
-    {
-        date: "17/03/25",
-        fajr: "4:36 AM",
-        fajrJamaat: "4:56 AM",
-        sunrise: "6:16 AM",
-        dhuhr: "12:20 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:20 PM",
-        asrJamaat: "4:45 PM",
-        maghrib: "6:15 PM",
-        maghribJamaat: "6:15 PM",
-        isha: "7:38 PM",
-        ishaJamaat: "8:00 PM"
-    },
-    {
-        date: "18/03/25",
-        fajr: "4:34 AM",
-        fajrJamaat: "4:54 AM",
-        sunrise: "6:14 AM",
-        dhuhr: "12:20 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:21 PM",
-        asrJamaat: "4:45 PM",
-        maghrib: "6:17 PM",
-        maghribJamaat: "6:17 PM",
-        isha: "7:40 PM",
-        ishaJamaat: "8:00 PM"
-    },
-    {
-        date: "19/03/25",
-        fajr: "4:32 AM",
-        fajrJamaat: "4:52 AM",
-        sunrise: "6:12 AM",
-        dhuhr: "12:20 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:23 PM",
-        asrJamaat: "4:45 PM",
-        maghrib: "6:19 PM",
-        maghribJamaat: "6:19 PM",
-        isha: "7:42 PM",
-        ishaJamaat: "8:00 PM"
-    },
-    {
-        date: "20/03/25",
-        fajr: "4:30 AM",
-        fajrJamaat: "4:50 AM",
-        sunrise: "6:09 AM",
-        dhuhr: "12:19 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:24 PM",
-        asrJamaat: "5:00 PM",
-        maghrib: "6:21 PM",
-        maghribJamaat: "6:21 PM",
-        isha: "7:44 PM",
-        ishaJamaat: "8:30 PM"
-    },
-    {
-        date: "21/03/25",
-        fajr: "4:28 AM",
-        fajrJamaat: "4:48 AM",
-        sunrise: "6:07 AM",
-        dhuhr: "12:19 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:25 PM",
-        asrJamaat: "5:00 PM",
-        maghrib: "6:22 PM",
-        maghribJamaat: "6:22 PM",
-        isha: "7:44 PM",
-        ishaJamaat: "8:30 PM"
-    },
-    {
-        date: "22/03/25",
-        fajr: "4:27 AM",
-        fajrJamaat: "4:47 AM",
-        sunrise: "6:05 AM",
-        dhuhr: "12:19 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:27 PM",
-        asrJamaat: "5:00 PM",
-        maghrib: "6:24 PM",
-        maghribJamaat: "6:24 PM",
-        isha: "7:46 PM",
-        ishaJamaat: "8:30 PM"
-    },
-    {
-        date: "23/03/25",
-        fajr: "4:24 AM",
-        fajrJamaat: "4:44 AM",
-        sunrise: "6:02 AM",
-        dhuhr: "12:19 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:28 PM",
-        asrJamaat: "5:00 PM",
-        maghrib: "6:26 PM",
-        maghribJamaat: "6:26 PM",
-        isha: "7:48 PM",
-        ishaJamaat: "8:30 PM"
-    },
-    {
-        date: "24/03/25",
-        fajr: "4:22 AM",
-        fajrJamaat: "4:42 AM",
-        sunrise: "6:00 AM",
-        dhuhr: "12:18 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:29 PM",
-        asrJamaat: "5:00 PM",
-        maghrib: "6:28 PM",
-        maghribJamaat: "6:28 PM",
-        isha: "7:50 PM",
-        ishaJamaat: "8:30 PM"
-    },
-    {
-        date: "25/03/25",
-        fajr: "4:20 AM",
-        fajrJamaat: "4:40 AM",
-        sunrise: "5:58 AM",
-        dhuhr: "12:18 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:31 PM",
-        asrJamaat: "5:00 PM",
-        maghrib: "6:29 PM",
-        maghribJamaat: "6:29 PM",
-        isha: "7:50 PM",
-        ishaJamaat: "8:30 PM"
-    },
-    {
-        date: "26/03/25",
-        fajr: "4:18 AM",
-        fajrJamaat: "4:38 AM",
-        sunrise: "5:55 AM",
-        dhuhr: "12:18 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:32 PM",
-        asrJamaat: "5:00 PM",
-        maghrib: "6:31 PM",
-        maghribJamaat: "6:31 PM",
-        isha: "7:52 PM",
-        ishaJamaat: "8:30 PM"
-    },
-    {
-        date: "27/03/25",
-        fajr: "4:16 AM",
-        fajrJamaat: "4:36 AM",
-        sunrise: "5:53 AM",
-        dhuhr: "12:17 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:33 PM",
-        asrJamaat: "5:00 PM",
-        maghrib: "6:33 PM",
-        maghribJamaat: "6:33 PM",
-        isha: "7:54 PM",
-        ishaJamaat: "8:30 PM"
-    },
-    {
-        date: "28/03/25",
-        fajr: "4:14 AM",
-        fajrJamaat: "4:34 AM",
-        sunrise: "5:50 AM",
-        dhuhr: "12:17 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:34 PM",
-        asrJamaat: "5:00 PM",
-        maghrib: "6:35 PM",
-        maghribJamaat: "6:35 PM",
-        isha: "7:56 PM",
-        ishaJamaat: "8:30 PM"
-    },
-    {
-        date: "29/03/25",
-        fajr: "4:12 AM",
-        fajrJamaat: "4:32 AM",
-        sunrise: "5:48 AM",
-        dhuhr: "12:17 PM",
-        dhuhrJamaat: "1:15 PM",
-        asr: "4:36 PM",
-        asrJamaat: "5:00 PM",
-        maghrib: "6:36 PM",
-        maghribJamaat: "6:36 PM",
-        isha: "7:57 PM",
-        ishaJamaat: "8:30 PM"
-    },
-    {
-        date: "30/03/25",
-        fajr: "5:10 AM",
-        fajrJamaat: "5:30 AM",
-        sunrise: "6:46 AM",
-        dhuhr: "1:16 PM",
-        dhuhrJamaat: "1:30 PM",
-        asr: "5:39 PM",
-        asrJamaat: "6:00 PM",
-        maghrib: "7:38 PM",
-        maghribJamaat: "7:38 PM",
-        isha: "8:58 PM",
-        ishaJamaat: "9:30 PM"
-    },
-    {
-        date: "31/03/25",
-        fajr: "5:08 AM",
-        fajrJamaat: "5:18 AM",
-        sunrise: "6:44 AM",
-        dhuhr: "1:16 PM",
-        dhuhrJamaat: "1:30 PM",
-        asr: "5:40 PM",
-        asrJamaat: "6:00 PM",
-        maghrib: "7:40 PM",
-        maghribJamaat: "7:40 PM",
-        isha: "8:59 PM",
-        ishaJamaat: "9:30 PM"
+    // A small helper to get day difference in UTC, ignoring DST
+    function getDayDifferenceUTC(dateA, dateB) {
+      const utcA = Date.UTC(dateA.getFullYear(), dateA.getMonth(), dateA.getDate());
+      const utcB = Date.UTC(dateB.getFullYear(), dateB.getMonth(), dateB.getDate());
+      return Math.floor((utcA - utcB) / (1000 * 60 * 60 * 24));
     }
-        ];
+
+    // Global variable for prayer data (to be loaded from external JSON)
+    let prayerData = [];
+
+    // Load prayer data from prayerData.json
+    async function loadPrayerData() {
+      try {
+        const response = await fetch('prayerData.json');
+        if (!response.ok) {
+          throw new Error('Failed to load prayer data');
+        }
+        prayerData = await response.json();
+        initializeDisplay();
+      } catch (error) {
+        console.error('Error loading prayer data:', error);
+      }
+    }
 
     // Render the prayer cards
     function renderPrayers(selectedRow) {
       const cardsContainer = document.getElementById("prayer-cards");
       cardsContainer.innerHTML = "";
-
       const isToday = (selectedRow.date === getTodayString());
       let prayers = [];
 
@@ -1135,7 +674,6 @@
           { name: "Sunrise", startTime: selectedRow.sunrise, jamatTime: null, iconClass: "wi-sunrise" },
           { name: "Dhuhr", startTime: selectedRow.dhuhr, jamatTime: selectedRow.dhuhrJamaat, iconClass: "wi-day-sunny" },
           { name: "Asr", startTime: selectedRow.asr, jamatTime: selectedRow.asrJamaat, iconClass: "wi-day-sunny-overcast" },
-          // Add "| Iftar" next to Maghrib
           { name: "Maghrib | Iftar", startTime: selectedRow.maghrib, jamatTime: selectedRow.maghribJamaat, iconClass: "wi-sunset" },
           { name: "Isha | Taraweeh", startTime: selectedRow.isha, jamatTime: selectedRow.ishaJamaat, iconClass: "wi-night-clear" }
         ];
@@ -1155,34 +693,26 @@
         const now = new Date();
         const nowMins = now.getHours() * 60 + now.getMinutes();
         const prayerMinutes = prayers.map(p => timeToMinutes(p.startTime));
-
         let currentIndex = -1;
         for (let i = 0; i < prayerMinutes.length; i++) {
           if (prayerMinutes[i] !== null && prayerMinutes[i] <= nowMins) {
             currentIndex = i;
           }
         }
-
-        // Special sunrise rule: "Now" for only 30 min
         if (currentIndex >= 0) {
           if (prayers[currentIndex].name.includes("Sunrise")) {
             const sunriseMins = prayerMinutes[currentIndex];
-            // If current time is within 30 min of sunrise, mark Sunrise as "Now"
             if ((nowMins - sunriseMins) <= 30) {
               prayers[currentIndex].isCurrent = true;
             } else {
-              // It's more than 30 min after sunrise, so effectively no "current prayer"
               currentIndex = -1;
             }
           } else {
             prayers[currentIndex].isCurrent = true;
           }
         }
-
-        // Next prayer logic
         let nextIndex = currentIndex + 1;
         if (currentIndex === -1) {
-          // No prayer has started yet
           nextIndex = prayerMinutes.findIndex(m => m !== null && m >= nowMins);
         }
         if (nextIndex >= 0 && nextIndex < prayers.length) {
@@ -1206,23 +736,17 @@
           <div class="prayer-time">${p.startTime || ""}</div>
           ${
             p.jamatTime
-              ? `
-                <div class="jamat-label">Jamaat</div>
-                <div class="prayer-time-secondary">${p.jamatTime}</div>
-              `
+              ? `<div class="jamat-label">Jamaat</div>
+                 <div class="prayer-time-secondary">${p.jamatTime}</div>`
               : ""
           }
         `;
         cardsContainer.appendChild(card);
-
-        // Staggered fade-in
-        setTimeout(() => {
-          card.classList.add("fade-in");
-        }, idx * 100);
+        setTimeout(() => { card.classList.add("fade-in"); }, idx * 100);
       });
     }
 
-    // Ramadan Day counter
+    // Ramadan Day counter (using UTC to avoid DST issues)
     function updateRamadanCounter(selectedRow) {
       const ramadanCounter = document.getElementById('ramadan-counter');
       if (!selectedRow) {
@@ -1230,14 +754,15 @@
         return;
       }
       // For demo: Ramadan start is 1st March 2025
-      const ramadanStart = new Date(2025, 2, 1); // March 1, 2025 (0-based month)
+      const ramadanStart = new Date(2025, 2, 1); // 0-based month => March
+
+      // Convert the selected row's date to a Date object
       const [dd, mm, yy] = selectedRow.date.split("/");
       const fullYear = 2000 + parseInt(yy);
-      const month = parseInt(mm) - 1;
-      const day = parseInt(dd);
-      const selectedDateObj = new Date(fullYear, month, day);
-      const diffTime = selectedDateObj - ramadanStart;
-      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const selectedDateObj = new Date(fullYear, parseInt(mm) - 1, parseInt(dd));
+
+      // Use our UTC-based difference function
+      const diffDays = getDayDifferenceUTC(selectedDateObj, ramadanStart);
       const ramadanDay = diffDays + 1;
 
       if (ramadanDay < 1) {
@@ -1251,29 +776,18 @@
 
     // Iftar / Suhoor countdown
     let ramadanInterval = null;
-
     function startRamadanCountdowns(selectedRow) {
       if (ramadanInterval) clearInterval(ramadanInterval);
-
       const iftarEl = document.getElementById('iftar-countdown-text');
       iftarEl.textContent = "Loading...";
-
-      // Identify today's and tomorrow's row
       const todayIndex = prayerData.findIndex(row => row.date === selectedRow.date);
       const tomorrowIndex = todayIndex + 1;
-      let tomorrowRow = null;
-      if (tomorrowIndex < prayerData.length) {
-        tomorrowRow = prayerData[tomorrowIndex];
-      }
-
-      // parse today's Fajr & Maghrib
+      let tomorrowRow = (tomorrowIndex < prayerData.length) ? prayerData[tomorrowIndex] : null;
       const [dd, mm, yy] = selectedRow.date.split("/");
       const fullYear = 2000 + parseInt(yy);
       const dateObjToday = new Date(fullYear, parseInt(mm) - 1, parseInt(dd));
       const fajrTime = parsePrayerTime(selectedRow.fajr, dateObjToday);
       const maghribTime = parsePrayerTime(selectedRow.maghrib, dateObjToday);
-
-      // next day Fajr
       let tomorrowFajr = null;
       if (tomorrowRow) {
         const [dd2, mm2, yy2] = tomorrowRow.date.split("/");
@@ -1281,57 +795,38 @@
         const dateObjTomorrow = new Date(fullYear2, parseInt(mm2) - 1, parseInt(dd2));
         tomorrowFajr = parsePrayerTime(tomorrowRow.fajr, dateObjTomorrow);
       }
-
-      // Fajr + 5 minutes => stop eating window
-      let fajrPlus5 = null;
-      if (fajrTime) {
-        fajrPlus5 = new Date(fajrTime.getTime() + 5 * 60000);
-      }
+      let fajrPlus5 = (fajrTime) ? new Date(fajrTime.getTime() + 5 * 60000) : null;
 
       function updateRamadanMessage() {
         const now = new Date();
-
-        // 1) If now < Fajr => Suhoor countdown
         if (fajrTime && now < fajrTime) {
           const diff = fajrTime - now;
           iftarEl.textContent = formatCountdown(diff, "until Suhoor ends");
           return;
         }
-
-        // 2) If we’re between Fajr and Fajr+5 => "Time to stop eating!"
         if (fajrTime && fajrPlus5 && now >= fajrTime && now < fajrPlus5) {
           iftarEl.textContent = "Time to stop eating or drinking!";
           return;
         }
-
-        // 3) If after Fajr+5 but before Maghrib => Iftar countdown
         if (maghribTime && now >= fajrPlus5 && now < maghribTime) {
           const diff = maghribTime - now;
           iftarEl.textContent = formatCountdown(diff, "until Iftar");
           return;
         }
-
-        // 4) If we’re between Maghrib and Maghrib+30 => "Iftar has started!"
-        const maghribPlus30 = maghribTime ? new Date(maghribTime.getTime() + 30 * 60000) : null;
+        const maghribPlus30 = (maghribTime) ? new Date(maghribTime.getTime() + 30 * 60000) : null;
         if (maghribTime && maghribPlus30 && now >= maghribTime && now < maghribPlus30) {
           iftarEl.textContent = "Iftar has started!";
           return;
         }
-
-        // 5) If after Maghrib+30 => blank (until next day)
         if (maghribPlus30 && now >= maghribPlus30 && now < midnightOfNextDay(dateObjToday)) {
           iftarEl.textContent = "";
           return;
         }
-
-        // 6) If it's now the next day but user hasn't changed date...
         if (tomorrowFajr && now >= midnightOfNextDay(dateObjToday) && now < tomorrowFajr) {
           const diff = tomorrowFajr - now;
           iftarEl.textContent = formatCountdown(diff, "until Suhoor ends (next day)");
           return;
         }
-
-        // 7) Otherwise, blank
         iftarEl.textContent = "";
       }
 
@@ -1348,7 +843,6 @@
         let hrs = Math.floor(mins / 60);
         secs %= 60;
         mins %= 60;
-
         if (hrs > 0) {
           return `${hrs}h ${mins}m ${suffix}`;
         } else if (mins > 0) {
@@ -1362,20 +856,13 @@
       ramadanInterval = setInterval(updateRamadanMessage, 1000);
     }
 
-    // Update display
-    let currentPrayerIndex = prayerData.findIndex(row => row.date === getTodayString());
-    if (currentPrayerIndex === -1) currentPrayerIndex = 0;
-
+    // Update display for the selected day's data
+    let currentPrayerIndex = 0;
     function updateDisplay(index) {
       const selectedRow = prayerData[index];
-      // Update date label
       document.getElementById('current-date').textContent = formatDisplayDate(selectedRow.date);
-      // Render prayers
       renderPrayers(selectedRow);
-      // Ramadan day
       updateRamadanCounter(selectedRow);
-
-      // Show/hide iftar container if it's "today"
       const iftarContainer = document.getElementById('iftar-counter');
       const iftarEl = document.getElementById('iftar-countdown-text');
       if (selectedRow.date === getTodayString()) {
@@ -1388,38 +875,37 @@
       }
     }
 
-    // Initialize
-    updateDisplay(currentPrayerIndex);
+    function initializeDisplay() {
+      // Find today's date in the loaded data
+      currentPrayerIndex = prayerData.findIndex(row => row.date === getTodayString());
+      if (currentPrayerIndex === -1) currentPrayerIndex = 0;
+      updateDisplay(currentPrayerIndex);
 
-    // Prev/Next date
-    document.getElementById('prev-date').addEventListener('click', () => {
-      if (currentPrayerIndex > 0) {
-        currentPrayerIndex--;
-        updateDisplay(currentPrayerIndex);
-      }
-    });
-    document.getElementById('next-date').addEventListener('click', () => {
-      if (currentPrayerIndex < prayerData.length - 1) {
-        currentPrayerIndex++;
-        updateDisplay(currentPrayerIndex);
-      }
-    });
+      // Prev/Next date
+      document.getElementById('prev-date').addEventListener('click', () => {
+        if (currentPrayerIndex > 0) {
+          currentPrayerIndex--;
+          updateDisplay(currentPrayerIndex);
+        }
+      });
+      document.getElementById('next-date').addEventListener('click', () => {
+        if (currentPrayerIndex < prayerData.length - 1) {
+          currentPrayerIndex++;
+          updateDisplay(currentPrayerIndex);
+        }
+      });
+    }
 
-    // Tab sections
+    // Tab navigation
     const timetableSection = document.getElementById("timetable-section");
     const communitySection = document.getElementById("community-section");
     const aboutSection = document.getElementById("about-section");
-
-    // Nav items
     const navTimetable = document.getElementById("nav-timetable");
     const navCommunity = document.getElementById("nav-community");
     const navAbout = document.getElementById("nav-about");
 
     function showTab(tab) {
-      [navTimetable, navCommunity, navAbout].forEach(btn => {
-        btn.classList.remove("active", "animate-pop");
-      });
-
+      [navTimetable, navCommunity, navAbout].forEach(btn => btn.classList.remove("active", "animate-pop"));
       if (tab === "timetable") {
         timetableSection.style.display = "block";
         communitySection.style.display = "none";
@@ -1430,43 +916,34 @@
         communitySection.style.display = "block";
         aboutSection.style.display = "none";
         navCommunity.classList.add("active", "animate-pop");
-
-        // Fade in community items
         const fadeItems = communitySection.querySelectorAll(".community-fade");
         fadeItems.forEach((item, idx) => {
           item.classList.remove("fade-in");
           item.style.opacity = 0;
           item.style.transform = "translateY(10px)";
-          setTimeout(() => {
-            item.classList.add("fade-in");
-          }, idx * 100);
+          setTimeout(() => { item.classList.add("fade-in"); }, idx * 100);
         });
       } else if (tab === "about") {
         timetableSection.style.display = "none";
         communitySection.style.display = "none";
         aboutSection.style.display = "block";
         navAbout.classList.add("active", "animate-pop");
-
-        // Fade in about items
         const fadeItems = aboutSection.querySelectorAll(".community-fade");
         fadeItems.forEach((item, idx) => {
           item.classList.remove("fade-in");
           item.style.opacity = 0;
           item.style.transform = "translateY(10px)";
-          setTimeout(() => {
-            item.classList.add("fade-in");
-          }, idx * 100);
+          setTimeout(() => { item.classList.add("fade-in"); }, idx * 100);
         });
       }
     }
-
-    // Default tab
     showTab("timetable");
-
-    // Nav click
     navTimetable.addEventListener("click", () => showTab("timetable"));
     navCommunity.addEventListener("click", () => showTab("community"));
     navAbout.addEventListener("click", () => showTab("about"));
+
+    // Finally, load prayer data and start the app
+    loadPrayerData();
   </script>
 </body>
 </html>
